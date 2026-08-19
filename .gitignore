@@ -19,6 +19,10 @@ node_modules/
 # IDE
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
+
+.eslintcache
+
 .idea/
 .fleet/
 *.suo

@@ -2,10 +2,11 @@
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
-   watchers: {
+  watchers: {
     chokidar: {
       usePolling: true,
       interval: 1000,
     },
   },
-})
+  modules: ['@nuxt/eslint'],
+});
