@@ -8,5 +8,17 @@ export default defineNuxtConfig({
       interval: 1000,
     },
   },
-  modules: ['@nuxt/eslint'],
+  modules: ['@nuxt/eslint', '@nuxt/ui'],
+  css: ['~/assets/css/main.css'],
+  components: [
+    {
+      path: '~/components',
+      pathPrefix: false,
+    },
+  ],
+  fonts: {
+    providers: {
+      fontshare: false,
+    },
+  },
 });
