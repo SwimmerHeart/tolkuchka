@@ -48,7 +48,7 @@
 | `prisma`, `@prisma/client` | 1–2 | Dev 2 | init, схема, первая миграция |
 | `@sidebase/nuxt-auth`, `next-auth@~4.21.1` (peer!), `bcrypt` | 1–2 | Dev 2 | auth (#9) |
 | Scalar / swagger-ui-dist (выбор) | 1–2 | Dev 2 | API docs (#10) |
-| `pinia`, `@pinia/nuxt` | 3–4 | по задаче | корзина — первый потребитель |
+| `pinia`, `@pinia/nuxt` | 1–2 | Dev 2 | auth store (#14); далее каталог (#21), корзина |
 | `vitest`, `@nuxt/test-utils` | 5 | по задаче | тесты (#50–51) |
 
 Gotcha: `@sidebase/nuxt-auth` требует peer `next-auth` именно v4 (`~4.21.1`), не v5/Auth.js.
