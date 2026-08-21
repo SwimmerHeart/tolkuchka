@@ -7,25 +7,32 @@
       </div>
 
       <UCard>
-        <UForm :state="state" class="space-y-6">
-          <UFormGroup label="Как вас зовут?" name="name">
-            <UInput v-model="state.name" placeholder="Иван Иванов" autocomplete="name" />
-          </UFormGroup>
+        <UForm :schema="registerSchema" :state="state" class="space-y-6" @submit="onSubmit">
+          <UFormField label="Как вас зовут?" name="name">
+            <UInput
+              v-model="state.name"
+              placeholder="Иван Иванов"
+              autocomplete="name"
+              class="w-full"
+            />
+          </UFormField>
 
-          <UFormGroup label="Email" name="email">
+          <UFormField label="Email" name="email">
             <UInput
               v-model="state.email"
               type="email"
               placeholder="you@example.com"
               autocomplete="email"
+              class="w-full"
             />
-          </UFormGroup>
+          </UFormField>
 
-          <UFormGroup label="Пароль" name="password">
+          <UFormField label="Пароль" name="password">
             <UInput
               v-model="state.password"
               :type="showPassword ? 'text' : 'password'"
               autocomplete="new-password"
+              class="w-full"
             >
               <template #trailing>
                 <UButton
@@ -38,23 +45,24 @@
                 />
               </template>
             </UInput>
-          </UFormGroup>
+          </UFormField>
 
-          <UFormGroup label="Подтвердите пароль" name="confirm">
+          <UFormField label="Подтвердите пароль" name="confirm">
             <UInput
               v-model="state.confirm"
               :type="showPassword ? 'text' : 'password'"
               autocomplete="new-password"
+              class="w-full"
             />
-          </UFormGroup>
+          </UFormField>
 
-          <UFormGroup label="Я регистрируюсь как">
+          <UFormField label="Я регистрируюсь как">
             <URadioGroup v-model="state.role" :items="roleItems" class="w-full" />
             <p v-if="isSeller" class="mt-2 text-sm text-muted">
-              Вы сможете размещать товары и управлять магазином. Ваши данные
-              защищены, без скрытых комиссий.
+              Вы сможете размещать товары и управлять магазином. Ваши данные защищены, без скрытых
+              комиссий.
             </p>
-          </UFormGroup>
+          </UFormField>
 
           <div class="space-y-3">
             <UButton type="submit" color="primary" variant="solid" size="lg" block>
@@ -69,34 +77,45 @@
 
       <p class="mt-6 text-center text-sm text-muted">
         Уже есть аккаунт?
-        <ULink to="/auth/login" class="font-medium text-primary">
-          Войти
-        </ULink>
+        <ULink to="/auth/login" class="font-medium text-primary"> Войти </ULink>
       </p>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-  definePageMeta({ layout: 'auth' })
+  import type { FormSubmitEvent } from '@nuxt/ui';
+  import { registerSchema, type RegisterSchema } from '#shared/schemas/auth.schema';
 
-  const route = useRoute()
+  definePageMeta({ layout: 'auth' });
 
-  const state = reactive({
+  const route = useRoute();
+
+  const state = reactive<RegisterSchema>({
     name: '',
     email: '',
     password: '',
     confirm: '',
     role: route.query.role === 'seller' ? 'seller' : 'buyer',
-  })
+  });
 
-  const showPassword = ref(false)
-  const isSeller = computed(() => state.role === 'seller')
+  const toast = useToast();
+  async function onSubmit(event: FormSubmitEvent<RegisterSchema>) {
+    toast.add({
+      title: 'Успешно',
+      description: 'Регистрация прошла успешно',
+      color: 'success',
+    });
+    console.warn(event.data);
+  }
 
-  const ctaLabel = computed(() => (isSeller.value ? 'Стать продавцом' : 'Создать аккаунт'))
+  const showPassword = ref(false);
+  const isSeller = computed(() => state.role === 'seller');
+
+  const ctaLabel = computed(() => (isSeller.value ? 'Стать продавцом' : 'Создать аккаунт'));
 
   const roleItems = [
     { label: 'Покупатель', value: 'buyer' },
     { label: 'Продавец', value: 'seller' },
-  ]
+  ];
 </script>
