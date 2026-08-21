@@ -54,4 +54,4 @@ generated/
 
 # Team internal docs
 AGENTS.md
-.team/
+.team/CI-CD.md
