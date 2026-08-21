@@ -29,3 +29,11 @@ export const registerSchema = registerBaseSchema.refine((data) => data.password 
 export const serverRegisterSchema = registerBaseSchema.omit({ confirm: true });
 
 export type RegisterSchema = z.output<typeof registerSchema>;
+
+// На логине нет проверок сложности: старые пароли остаются валидными, сервер проверит точное совпадение
+export const loginSchema = z.object({
+  email: z.email('Некорректный email'),
+  password: z.string().min(1, 'Введите пароль'),
+});
+
+export type LoginSchema = z.output<typeof loginSchema>;
