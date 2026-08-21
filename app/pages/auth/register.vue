@@ -78,6 +78,8 @@
 </template>
 
 <script setup lang="ts">
+  definePageMeta({ layout: 'auth' })
+
   const route = useRoute()
 
   const state = reactive({
