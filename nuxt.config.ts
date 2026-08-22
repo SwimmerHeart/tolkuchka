@@ -21,4 +21,10 @@ export default defineNuxtConfig({
       fontshare: false,
     },
   },
+  icon: {
+    provider: 'server',
+    serverBundle: {
+      collections: ['heroicons'],
+    },
+  },
 });
