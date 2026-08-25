@@ -10,25 +10,10 @@
       <div class="flex items-center gap-2">
         <UButton to="/auth/login" color="neutral" variant="ghost" size="sm"> Войти </UButton>
         <UButton to="/seller" color="primary" variant="solid" size="sm"> Стать продавцом </UButton>
-        <UButton
-          :icon="isDark ? 'i-heroicons-sun' : 'i-heroicons-moon'"
-          color="neutral"
-          variant="ghost"
-          size="sm"
-          aria-label="Переключить тему"
-          @click="toggleTheme"
-        />
+        <ThemeToggle />
       </div>
     </template>
   </UHeader>
 </template>
 
-<script setup lang="ts">
-  const colorMode = useColorMode();
-
-  const isDark = computed(() => colorMode.value === 'dark');
-
-  function toggleTheme() {
-    colorMode.preference = isDark.value ? 'light' : 'dark';
-  }
-</script>
+<script setup lang="ts"></script>

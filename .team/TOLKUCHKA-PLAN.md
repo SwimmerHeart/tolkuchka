@@ -643,6 +643,14 @@ enum OrderStatus {
 
 ---
 
+## Известные проблемы (разобраться)
+
+| Проблема | Что проверено | Обход сейчас | Как чинить |
+|----------|---------------|--------------|------------|
+| SSR-warning иконок `[Icon] failed to load icon heroicons:*`, в серверном HTML 0 SVG (2026-08-23) | @nuxt/icon **2.5.0** + @nuxt/ui **4.10.0**. Проверено: коллекция `@iconify-json/heroicons` локально установлена; бандл `.nuxt/nuxt-icon-server-bundle.mjs` генерируется верно; лоадер отдаёт все иконки при прямом вызове; эндпоинт `/api/_nuxt_icon/heroicons.json` работает (curl); конфиг `provider: 'server'` + `serverBundle.collections` доходит до runtime app.config — но SSR-резолв всё равно падает. Дефолтный `mode: 'css'` тоже не даёт классов в HTML. Гипотеза: плагин отдаёт загрузчику Iconify «сырый» fetch (`$fetch.native`), который на сервере не резолвит относительный URL `/api/...` | Иконки визуально работают (клиент докупает после гидрации); warning — девелоперский шум. Конфиг иконок оставлен как есть — он правильный и пригодится на проде | Варианты: пин `@nuxt/icon@2.4.1` через `overrides` (в диапазоне `^2.3.1` от @nuxt/ui) → перезапуск → проверить HTML; если не поможет — изучить цепочку `plugin.js → shared.js → @iconify/vue` в node_modules; оформить issue в [nuxt/icon](https://github.com/nuxt/icon) с repro |
+
+---
+
 ## Процесс Code Review
 
 > Подробная инструкция по git-флоу, созданию PR и настройке GitHub — в [GIT-WORKFLOW.md](./GIT-WORKFLOW.md).
