@@ -2,13 +2,19 @@
   <UDashboardGroup>
     <UDashboardSidebar collapsible>
       <template #header="{ collapsed }">
-        <ULink to="/" class="flex items-center gap-2 text-lg font-bold">
+        <ULink
+          to="/"
+          class="flex items-center gap-2 text-lg font-bold"
+          :class="collapsed ? 'justify-center w-full' : ''"
+        >
           <UIcon name="i-heroicons-shopping-bag" class="text-primary" />
           <span v-if="!collapsed">Толкучка</span>
         </ULink>
       </template>
 
-      <UNavigationMenu orientation="vertical" :items="items" />
+      <template #default="{ collapsed }">
+        <UNavigationMenu orientation="vertical" :items="items" :collapsed="collapsed" />
+      </template>
 
       <template #footer="{ collapsed }">
         <UButton
