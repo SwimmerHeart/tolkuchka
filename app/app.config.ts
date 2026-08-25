@@ -51,5 +51,10 @@ export default defineAppConfig({
         variant: 'subtle',
       },
     },
+    formField: {
+      slots: {
+        label: 'block text-xs font-medium text-muted',
+      },
+    },
   },
 });

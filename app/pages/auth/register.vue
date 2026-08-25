@@ -68,7 +68,7 @@
             <UButton type="submit" color="primary" variant="solid" size="lg" block>
               {{ ctaLabel }}
             </UButton>
-            <p class="text-center text-xs text-dimmed">
+            <p class="text-center text-xs text-muted">
               Регистрация бесплатна. Ваши данные защищены.
             </p>
           </div>
@@ -88,6 +88,8 @@
   import { registerSchema, type RegisterSchema } from '#shared/schemas/auth.schema';
 
   definePageMeta({ layout: 'auth' });
+
+  useSeoMeta({ robots: 'noindex' });
 
   const route = useRoute();
 
