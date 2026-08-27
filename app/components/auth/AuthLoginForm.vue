@@ -30,9 +30,7 @@
       </UInput>
     </UFormField>
 
-    <UButton type="submit" color="primary" variant="solid" size="lg" block :loading="submitting">
-      Войти
-    </UButton>
+    <UButton type="submit" color="primary" variant="solid" size="lg" block> Войти </UButton>
   </UForm>
 </template>
 
@@ -40,20 +38,12 @@
   import type { FormSubmitEvent } from '@nuxt/ui';
   import { loginSchema, type LoginSchema } from '#shared/schemas/auth.schema';
 
-  // TODO: убрать при реальной авторизации
-  const MOCK_SIGNIN_DELAY_MS = 800;
-
   const emit = defineEmits<{ submitted: [data: LoginSchema] }>();
 
   const state = reactive<LoginSchema>({ email: '', password: '' });
   const showPassword = ref(false);
-  const submitting = ref(false);
 
-  async function onSubmit(event: FormSubmitEvent<LoginSchema>) {
-    submitting.value = true;
-    // TODO: убрать при замене на реальную авторизацию + добавить обработку ошибок
-    await new Promise((resolve) => setTimeout(resolve, MOCK_SIGNIN_DELAY_MS));
-    submitting.value = false;
+  function onSubmit(event: FormSubmitEvent<LoginSchema>) {
     emit('submitted', event.data);
   }
 </script>

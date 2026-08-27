@@ -23,6 +23,11 @@ export default defineEventHandler(async (event) => {
 
   // 4. Возвращаем пользователя (без пароля!)
   return {
-    user: { id: user.id, email: user.email, name: user.name, role: user.role },
+    user: {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      role: user.role,
+    },
   };
 });

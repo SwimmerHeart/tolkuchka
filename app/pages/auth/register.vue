@@ -92,6 +92,7 @@
   useSeoMeta({ robots: 'noindex' });
 
   const route = useRoute();
+  const auth = useAuthStore();
 
   const state = reactive<RegisterSchema>({
     name: '',
@@ -103,12 +104,23 @@
 
   const toast = useToast();
   async function onSubmit(event: FormSubmitEvent<RegisterSchema>) {
-    toast.add({
-      title: 'Успешно',
-      description: 'Регистрация прошла успешно',
-      color: 'success',
-    });
-    console.warn(event.data);
+    const { confirm: _confirm, ...payload } = event.data;
+    try {
+      const user = await auth.register(payload);
+      toast.add({
+        title: 'Успешно',
+        description: 'Регистрация прошла успешно',
+        color: 'success',
+      });
+      await navigateTo(user.role === 'seller' ? '/dashboard' : '/', { replace: true });
+    } catch (error) {
+      toast.add({
+        title: 'Не удалось зарегистрироваться',
+        description: apiErrorMessage(error),
+        color: 'error',
+      });
+      console.error(error);
+    }
   }
 
   const showPassword = ref(false);
