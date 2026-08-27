@@ -8,8 +8,11 @@ export default defineNuxtConfig({
       interval: 1000,
     },
   },
-  modules: ['@nuxt/eslint', '@nuxt/ui'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
   css: ['~/assets/css/main.css'],
+  runtimeConfig: {
+    authSecret: '',
+  },
   components: [
     {
       path: '~/components',
