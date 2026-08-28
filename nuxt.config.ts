@@ -8,7 +8,12 @@ export default defineNuxtConfig({
       interval: 1000,
     },
   },
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@sidebase/nuxt-auth'],
+  auth: {
+    isEnabled: true,
+    baseURL: '/api/auth',
+    provider: { type: 'authjs', trustHost: true },
+  },
   css: ['~/assets/css/main.css'],
   runtimeConfig: {
     authSecret: '',
