@@ -546,8 +546,8 @@ enum OrderStatus {
 |---|--------|-----|---------------|
 | 19 | Prisma schema: модель `Category` + `Product.categoryId` (связь), миграция, seed: категории + 50+ товаров | Dev 2 | Prisma, seed script |
 | 20 | `server/api/products/index.get.ts` — пагинация, фильтры (категория через `categoryId`, цена, поиск) + `server/api/categories/index.get.ts` и `[slug].get.ts` | Dev 2 | Server API, query params, Prisma |
-| 21 | Pinia store `products.ts` — каталог, фильтры, кэш | Dev 1 | Pinia getters, caching |
-| 22 | `pages/products/index.vue` — каталог, фильтры, сортировка (ISR) + `pages/categories/[slug].vue` — страница категории (ISR) | Dev 1 | `useAsyncData`, ISR, routeRules |
+| 21 | Pinia store `products.ts` — каталог, фильтры, кэш — ✅ PR #6 (на ревью) | Dev 1 | Pinia getters, caching |
+| 22 | `pages/products/index.vue` — каталог, фильтры, сортировка (ISR) + `pages/categories/[slug].vue` — страница категории (ISR) — ✅ PR #6 (на ревью) | Dev 1 | `useAsyncData`, ISR, routeRules |
 | 23 | `pages/products/[slug].vue` — карточка товара (SSR) | Dev 2 | Dynamic routes, definePageMeta |
 | 24 | SEO: `useHead`, `useSeoMeta` на каталоге и карточках | Dev 1 | SEO — мета-теги, Open Graph |
 | 25 | `@nuxtjs/sitemap` — автогенерация sitemap.xml | Dev 2 | Sitemap module |
