@@ -104,5 +104,9 @@ export const useProductStore = defineStore('product', {
       this.sort = 'relevance';
       this.page = 1;
     },
+    applyCategory(categoryId: string) {
+      this.resetFilters();
+      this.filters.categoryId = categoryId;
+    },
   },
 });

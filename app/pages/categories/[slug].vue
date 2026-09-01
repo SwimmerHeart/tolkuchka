@@ -5,6 +5,8 @@
       <p class="mt-2 text-muted">Найдено товаров: {{ total }}</p>
     </div>
 
+    <CatalogFilters :show-category-filter="false" @reset="reset" />
+
     <ProductGrid :items="paginated" :loading="pending" :show-reset="false" />
 
     <div class="mt-8 flex justify-center">
@@ -40,7 +42,7 @@
 
   watch(
     () => route.params.slug,
-    () => store.setCategory(category.value.id),
+    () => store.applyCategory(category.value.id),
     { immediate: true },
   );
 
@@ -48,6 +50,10 @@
     get: () => store.page,
     set: (v: number) => store.setPage(v),
   });
+
+  function reset() {
+    store.applyCategory(category.value.id);
+  }
 
   useSeoMeta({
     title: () => (category.value ? `${category.value.name} — Толкучка` : 'Категория — Толкучка'),
