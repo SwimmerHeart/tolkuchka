@@ -1,5 +1,42 @@
 import type { Category, Product } from '../schemas/product.schema';
 
+import imgElectronics1 from './images/electronics-1.jpg';
+import imgElectronics2 from './images/electronics-2.jpg';
+import imgElectronics3 from './images/electronics-3.jpg';
+import imgElectronics4 from './images/electronics-4.jpg';
+import imgElectronics5 from './images/electronics-5.jpg';
+import imgElectronics6 from './images/electronics-6.jpg';
+import imgHome1 from './images/home-1.jpg';
+import imgHome2 from './images/home-2.jpg';
+import imgHome3 from './images/home-3.jpg';
+import imgHome4 from './images/home-4.jpg';
+import imgHome5 from './images/home-5.jpg';
+import imgHome6 from './images/home-6.jpg';
+import imgClothing1 from './images/clothing-1.jpg';
+import imgClothing2 from './images/clothing-2.jpg';
+import imgClothing3 from './images/clothing-3.jpg';
+import imgClothing4 from './images/clothing-4.jpg';
+import imgClothing5 from './images/clothing-5.jpg';
+import imgClothing6 from './images/clothing-6.jpg';
+import imgSport1 from './images/sport-1.jpg';
+import imgSport2 from './images/sport-2.jpg';
+import imgSport3 from './images/sport-3.jpg';
+import imgSport4 from './images/sport-4.jpg';
+import imgSport5 from './images/sport-5.jpg';
+import imgSport6 from './images/sport-6.jpg';
+import imgBooks1 from './images/books-1.jpg';
+import imgBooks2 from './images/books-2.jpg';
+import imgBooks3 from './images/books-3.jpg';
+import imgBooks4 from './images/books-4.jpg';
+import imgBooks5 from './images/books-5.jpg';
+import imgBooks6 from './images/books-6.jpg';
+import imgToys1 from './images/toys-1.jpg';
+import imgToys2 from './images/toys-2.jpg';
+import imgToys3 from './images/toys-3.jpg';
+import imgToys4 from './images/toys-4.jpg';
+import imgToys5 from './images/toys-5.jpg';
+import imgToys6 from './images/toys-6.jpg';
+
 const electronics: Category = { id: 'cat-electronics', slug: 'electronics', name: 'Электроника' };
 const home: Category = { id: 'cat-home', slug: 'home', name: 'Дом и кухня' };
 const clothing: Category = { id: 'cat-clothing', slug: 'clothing', name: 'Одежда' };
@@ -18,7 +55,7 @@ export const products: Product[] = [
     description: 'Надёжный беспроводной звук, до 24 часов работы и шумоподавление.',
     price: 4990,
     oldPrice: 7490,
-    imageUrl: null,
+    imageUrl: imgElectronics1,
     rating: 3.7,
     category: electronics,
   },
@@ -29,7 +66,7 @@ export const products: Product[] = [
     description: 'Компактная колонка с голосовым ассистентом и многокомнатной музыкой.',
     price: 3990,
     oldPrice: 4990,
-    imageUrl: null,
+    imageUrl: imgElectronics2,
     rating: 4.5,
     category: electronics,
   },
@@ -39,7 +76,7 @@ export const products: Product[] = [
     name: 'Смарт-часы PulseFit',
     description: 'Трекер активности, пульс и уведомления от смартфона на экране AMOLED.',
     price: 8990,
-    imageUrl: null,
+    imageUrl: imgElectronics3,
     rating: 4.8,
     category: electronics,
   },
@@ -49,7 +86,7 @@ export const products: Product[] = [
     name: 'Внешний SSD 1 ТБ',
     description: 'Портативный накопитель со скоростью до 1050 МБ/с и влагозащитой.',
     price: 6490,
-    imageUrl: null,
+    imageUrl: imgElectronics4,
     rating: 4.6,
     category: electronics,
   },
@@ -60,7 +97,7 @@ export const products: Product[] = [
     description: 'Тихие переключатели, подсветка и сменные кейкапы в комплекте.',
     price: 5490,
     oldPrice: 6990,
-    imageUrl: null,
+    imageUrl: imgElectronics5,
     rating: 4.6,
     category: electronics,
   },
@@ -70,7 +107,7 @@ export const products: Product[] = [
     name: 'Чайник электрический стильный',
     description: 'Быстрый нагрев, регулировка температуры и автоотключение.',
     price: 3490,
-    imageUrl: null,
+    imageUrl: imgElectronics6,
     rating: 4.5,
     category: electronics,
   },
@@ -82,7 +119,7 @@ export const products: Product[] = [
     name: 'Чайный сервиз керамический, 12 предметов',
     description: 'Покрытие создано для ежедневного использования и посудомойки.',
     price: 2890,
-    imageUrl: null,
+    imageUrl: imgHome1,
     rating: 4.7,
     category: home,
   },
@@ -93,7 +130,7 @@ export const products: Product[] = [
     description: 'Индукционная дно, без масла и без прилипания.',
     price: 2490,
     oldPrice: 3290,
-    imageUrl: null,
+    imageUrl: imgHome2,
     rating: 4.5,
     category: home,
   },
@@ -103,7 +140,7 @@ export const products: Product[] = [
     name: 'Кофеварка капельная',
     description: 'Готовит до 12 чашек и поддерживает температуру в течение часа.',
     price: 5990,
-    imageUrl: null,
+    imageUrl: imgHome3,
     rating: 4.6,
     category: home,
   },
@@ -114,7 +151,7 @@ export const products: Product[] = [
     description: 'Плотный хлопок с мягким шелковистым блеском.',
     price: 3990,
     oldPrice: 4990,
-    imageUrl: null,
+    imageUrl: imgHome4,
     rating: 4.8,
     category: home,
   },
@@ -125,7 +162,7 @@ export const products: Product[] = [
     description: 'Анатомическая форма поддерживает шею во время сна.',
     price: 1790,
     oldPrice: 2390,
-    imageUrl: null,
+    imageUrl: imgHome5,
     rating: 4.4,
     category: home,
   },
@@ -135,7 +172,7 @@ export const products: Product[] = [
     name: 'Хлебопечка',
     description: 'Выпекает 8 программ: от белого хлеба до безглютенового.',
     price: 9990,
-    imageUrl: null,
+    imageUrl: imgHome6,
     rating: 4.6,
     category: home,
   },
@@ -148,7 +185,7 @@ export const products: Product[] = [
     description: 'Тёплый пуховый наполнитель и водонепроницаемая мембрана.',
     price: 12990,
     oldPrice: 16990,
-    imageUrl: null,
+    imageUrl: imgClothing1,
     rating: 4.8,
     category: clothing,
   },
@@ -158,7 +195,7 @@ export const products: Product[] = [
     name: 'Свитер из мериноса',
     description: 'Мягкая шерсть без колкости для повседневной носки.',
     price: 3990,
-    imageUrl: null,
+    imageUrl: imgClothing2,
     rating: 4.5,
     category: clothing,
   },
@@ -169,7 +206,7 @@ export const products: Product[] = [
     description: 'Плотный деним, посадка средней высоты.',
     price: 2990,
     oldPrice: 3990,
-    imageUrl: null,
+    imageUrl: imgClothing3,
     rating: 4.4,
     category: clothing,
   },
@@ -179,7 +216,7 @@ export const products: Product[] = [
     name: 'Комплект термобелья',
     description: 'Отводит влагу и сохраняет тепло до —20 °C.',
     price: 2490,
-    imageUrl: null,
+    imageUrl: imgClothing4,
     rating: 4.6,
     category: clothing,
   },
@@ -189,7 +226,7 @@ export const products: Product[] = [
     name: 'Кроссовки городские',
     description: 'Лёгкая подошва и дышащий верх для долгих прогулок.',
     price: 5490,
-    imageUrl: null,
+    imageUrl: imgClothing5,
     rating: 4.3,
     category: clothing,
   },
@@ -199,7 +236,7 @@ export const products: Product[] = [
     name: 'Дождевик складной',
     description: 'Компактный в сложенном виде, умещается в карман.',
     price: 990,
-    imageUrl: null,
+    imageUrl: imgClothing6,
     rating: 4.2,
     category: clothing,
   },
@@ -212,7 +249,7 @@ export const products: Product[] = [
     description: 'Компактно заменяют полноценный набор весов для дома.',
     price: 4990,
     oldPrice: 5990,
-    imageUrl: null,
+    imageUrl: imgSport1,
     rating: 4.7,
     category: sport,
   },
@@ -222,7 +259,7 @@ export const products: Product[] = [
     name: 'Коврик для йоги',
     description: 'Толщина 6 мм, нескользящее покрытие обеих сторон.',
     price: 1490,
-    imageUrl: null,
+    imageUrl: imgSport2,
     rating: 4.5,
     category: sport,
   },
@@ -232,7 +269,7 @@ export const products: Product[] = [
     name: 'Велоэргометр домашний',
     description: 'Магнитная нагрузка и датчик пульса на рукоятках.',
     price: 35990,
-    imageUrl: null,
+    imageUrl: imgSport3,
     rating: 4.6,
     category: sport,
   },
@@ -242,7 +279,7 @@ export const products: Product[] = [
     name: 'Мяч футбольный',
     description: 'Влагостойкая поверхность и усиленные швы.',
     price: 1990,
-    imageUrl: null,
+    imageUrl: imgSport4,
     rating: 4.4,
     category: sport,
   },
@@ -253,7 +290,7 @@ export const products: Product[] = [
     description: 'Лёгкий, с мягкой ёмкостью для воды на 1.5 литра.',
     price: 2490,
     oldPrice: 2990,
-    imageUrl: null,
+    imageUrl: imgSport5,
     rating: 4.5,
     category: sport,
   },
@@ -263,7 +300,7 @@ export const products: Product[] = [
     name: 'Эспандер-тяга',
     description: 'Регулируемая нагрузка для разминки и укрепления мышц.',
     price: 890,
-    imageUrl: null,
+    imageUrl: imgSport6,
     rating: 4.3,
     category: sport,
   },
@@ -276,7 +313,7 @@ export const products: Product[] = [
     description: 'История о соседях, которые знали друг о друге слишком много.',
     price: 690,
     oldPrice: 890,
-    imageUrl: null,
+    imageUrl: imgBooks1,
     rating: 4.6,
     category: books,
   },
@@ -287,7 +324,7 @@ export const products: Product[] = [
     description: 'Современный учебник с примерами на реальных кейсах.',
     price: 1990,
     oldPrice: 2490,
-    imageUrl: null,
+    imageUrl: imgBooks2,
     rating: 4.8,
     category: books,
   },
@@ -297,7 +334,7 @@ export const products: Product[] = [
     name: '«Садоводство на балконе»',
     description: 'Как вырастить зелень и томаты в городской квартире.',
     price: 990,
-    imageUrl: null,
+    imageUrl: imgBooks3,
     rating: 4.4,
     category: books,
   },
@@ -307,7 +344,7 @@ export const products: Product[] = [
     name: '«Маленький принц» (с иллюстрациями)',
     description: 'Классика в подарочном оформлении с авторскими рисунками.',
     price: 790,
-    imageUrl: null,
+    imageUrl: imgBooks4,
     rating: 4.9,
     category: books,
   },
@@ -317,7 +354,7 @@ export const products: Product[] = [
     name: '«Кулинарная книга пекаря»',
     description: '40 проверенных рецептов от закваски до круассанов.',
     price: 1290,
-    imageUrl: null,
+    imageUrl: imgBooks5,
     rating: 4.5,
     category: books,
   },
@@ -327,7 +364,7 @@ export const products: Product[] = [
     name: 'Графический роман «Город теней»',
     description: 'Неоновый детектив в твёрдом переплёте.',
     price: 1590,
-    imageUrl: null,
+    imageUrl: imgBooks6,
     rating: 4.7,
     category: books,
   },
@@ -340,7 +377,7 @@ export const products: Product[] = [
     description: 'Собирается в стартовый комплекс с подвижными элементами.',
     price: 4990,
     oldPrice: 5990,
-    imageUrl: null,
+    imageUrl: imgToys1,
     rating: 4.8,
     category: toys,
   },
@@ -350,7 +387,7 @@ export const products: Product[] = [
     name: 'Мягкая игрушка панда',
     description: 'Приятный на ощупь гипоаллергенный материал.',
     price: 1490,
-    imageUrl: null,
+    imageUrl: imgToys2,
     rating: 4.9,
     category: toys,
   },
@@ -361,7 +398,7 @@ export const products: Product[] = [
     description: 'Логическая игра для 2–6 игроков от 8 лет.',
     price: 2490,
     oldPrice: 2990,
-    imageUrl: null,
+    imageUrl: imgToys3,
     rating: 4.6,
     category: toys,
   },
@@ -371,7 +408,7 @@ export const products: Product[] = [
     name: 'Железная дорога с мостом',
     description: 'Набор из 60 деталей с локомотивом на батарейках.',
     price: 6990,
-    imageUrl: null,
+    imageUrl: imgToys4,
     rating: 4.5,
     category: toys,
   },
@@ -381,7 +418,7 @@ export const products: Product[] = [
     name: 'Набор для опытов «Юный химик»',
     description: '15 безопасных экспериментов с инструкцией для детей.',
     price: 1890,
-    imageUrl: null,
+    imageUrl: imgToys5,
     rating: 4.4,
     category: toys,
   },
@@ -391,7 +428,7 @@ export const products: Product[] = [
     name: 'Планшет для рисования без экрана',
     description: 'Рисунок стирается нажатием кнопки — бесконечный холст.',
     price: 3490,
-    imageUrl: null,
+    imageUrl: imgToys6,
     rating: 4.3,
     category: toys,
   },
