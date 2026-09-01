@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       interval: 1000,
     },
   },
-  modules: ['@nuxt/eslint', '@nuxt/ui'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt'],
   css: ['~/assets/css/main.css'],
   components: [
     {
@@ -26,5 +26,10 @@ export default defineNuxtConfig({
     serverBundle: {
       collections: ['heroicons'],
     },
+  },
+  routeRules: {
+    // страницы каталога пересобираются не чаще раза в час
+    '/products/**': { isr: 3600 },
+    '/categories/**': { isr: 3600 },
   },
 });
