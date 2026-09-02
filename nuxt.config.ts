@@ -35,4 +35,9 @@ export default defineNuxtConfig({
       collections: ['heroicons'],
     },
   },
+  routeRules: {
+    // страницы каталога пересобираются не чаще раза в час
+    '/products/**': { isr: 3600 },
+    '/categories/**': { isr: 3600 },
+  },
 });
