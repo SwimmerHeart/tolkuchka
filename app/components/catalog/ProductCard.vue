@@ -26,24 +26,32 @@
           </del>
         </div>
         <p v-if="product.rating" class="flex items-center gap-1 text-sm text-muted">
-          <template v-for="i in stars.full" :key="'f' + i">
-            <UIcon name="i-heroicons-star-solid" class="h-4 w-4 text-amber-400" />
-          </template>
+          <span class="hidden items-center gap-1 sm:inline-flex">
+            <template v-for="i in stars.full" :key="'f' + i">
+              <UIcon name="i-heroicons-star-solid" class="h-4 w-4 shrink-0 text-amber-400" />
+            </template>
 
-          <span v-if="stars.partial" class="relative h-4 w-4">
-            <UIcon name="i-heroicons-star-solid" class="h-4 w-4 text-gray-300 dark:text-gray-600" />
-            <span
-              class="absolute left-0 top-0 h-full overflow-hidden"
-              :style="{ width: `${stars.partialPercent}%` }"
-            >
-              <UIcon name="i-heroicons-star-solid" class="h-4 w-4 text-amber-400" />
+            <span v-if="stars.partial" class="relative h-4 w-4">
+              <UIcon
+                name="i-heroicons-star-solid"
+                class="h-4 w-4 shrink-0 text-gray-300 dark:text-gray-600"
+              />
+              <span
+                class="absolute left-0 top-0 h-full overflow-hidden"
+                :style="{ width: `${stars.partialPercent}%` }"
+              >
+                <UIcon name="i-heroicons-star-solid" class="h-4 w-4 text-amber-400" />
+              </span>
             </span>
+
+            <template v-for="i in stars.empty" :key="'e' + i">
+              <UIcon
+                name="i-heroicons-star-solid"
+                class="h-4 w-4 shrink-0 text-gray-300 dark:text-gray-600"
+              />
+            </template>
           </span>
-
-          <template v-for="i in stars.empty" :key="'e' + i">
-            <UIcon name="i-heroicons-star-solid" class="h-4 w-4 text-gray-300 dark:text-gray-600" />
-          </template>
-
+          <UIcon name="i-heroicons-star-solid" class="h-4 w-4 shrink-0 text-amber-400 sm:hidden" />
           {{ product.rating.toFixed(1) }}
         </p>
       </div>

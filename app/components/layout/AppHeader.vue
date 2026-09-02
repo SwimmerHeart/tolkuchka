@@ -37,7 +37,13 @@
           <span class="hidden sm:inline">Войти</span>
           <UIcon name="i-heroicons-user" class="sm:hidden" />
         </UButton>
-        <UButton to="/seller" color="primary" variant="solid" size="sm" class="hidden sm:inline-flex">
+        <UButton
+          to="/seller"
+          color="primary"
+          variant="solid"
+          size="sm"
+          class="hidden sm:inline-flex"
+        >
           Стать продавцом
         </UButton>
         <ThemeToggle />
