@@ -1,5 +1,3 @@
-import inject from '@rollup/plugin-inject'
-
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
@@ -34,12 +32,4 @@ export default defineNuxtConfig({
     '/products/**': { isr: 3600 },
     '/categories/**': { isr: 3600 },
   },
-  vite: {
-    plugins: [
-      inject({
-        // Либо явно исключаем картинки
-        exclude: ['**/shared/mocks/images/**']
-      })
-    ]
-  }
 });
