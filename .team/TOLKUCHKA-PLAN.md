@@ -640,6 +640,10 @@ enum OrderStatus {
 | Избранное (wishlist) | модель `WishlistItem` + страница `/account/favorites` | уже помечено в DEV-WORKFLOW как бэклог |
 | Админ-панель | `Role.ADMIN` есть в enum, но ни одной админ-страницы | вне скоупа учебного проекта |
 | **Оплата** | платёжный провайдер (Stripe/ЮKassa), webhook, статусы оплаты | **осознанное ограничение MVP:** заказ создаётся без оплаты; подключать на этапе развития проекта |
+| Вход через GitHub (OAuth) | провайдер `GitHubProvider` в `server/api/auth/[...].ts` + env (`GITHUB_ID`, `GITHUB_SECRET`) + redirect URI | лучший первый «внешний IdP»: бесплатно, без ревью приложения. Роль по умолчанию — `buyer`; вопрос «как стать продавцом» решаем при реализации. Делать после #15 |
+| Вход по телефону и паролю | идентификатор входа `phone` (или выбор phone/email) в mock-users/schema/`authorize` | ломает «email = уникальный логин» — меняется контракт, а не просто новый провайдер. Отдельная мини-фича со своим проектированием |
+| SMS-OTP (учебная тема) | мок-эмуляция кода (вывод в консоль/ответ в dev), флоу «запросить код → ввести код» | реальный провайдер платный (Twilio и т.п.), для учебного проекта мок достаточен, чтобы понять OTP-флоу |
+| Привязка аккаунтов (OAuth ↔ email) | связывание нескольких identity с одним аккаунтом | сложность выше среднего; есть смысл только когда появятся и социальные, и парольные входы вместе |
 
 ---
 
@@ -648,6 +652,7 @@ enum OrderStatus {
 | Проблема | Что проверено | Обход сейчас | Как чинить |
 |----------|---------------|--------------|------------|
 | SSR-warning иконок `[Icon] failed to load icon heroicons:*`, в серверном HTML 0 SVG (2026-08-23) | @nuxt/icon **2.5.0** + @nuxt/ui **4.10.0**. Проверено: коллекция `@iconify-json/heroicons` локально установлена; бандл `.nuxt/nuxt-icon-server-bundle.mjs` генерируется верно; лоадер отдаёт все иконки при прямом вызове; эндпоинт `/api/_nuxt_icon/heroicons.json` работает (curl); конфиг `provider: 'server'` + `serverBundle.collections` доходит до runtime app.config — но SSR-резолв всё равно падает. Дефолтный `mode: 'css'` тоже не даёт классов в HTML. Гипотеза: плагин отдаёт загрузчику Iconify «сырый» fetch (`$fetch.native`), который на сервере не резолвит относительный URL `/api/...` | Иконки визуально работают (клиент докупает после гидрации); warning — девелоперский шум. Конфиг иконок оставлен как есть — он правильный и пригодится на проде | Варианты: пин `@nuxt/icon@2.4.1` через `overrides` (в диапазоне `^2.3.1` от @nuxt/ui) → перезапуск → проверить HTML; если не поможет — изучить цепочку `plugin.js → shared.js → @iconify/vue` в node_modules; оформить issue в [nuxt/icon](https://github.com/nuxt/icon) с repro |
+| `@sidebase/nuxt-auth`: warning `AUTH_NO_ORIGIN: No origin`; при заданном без пути env — `Recursion detected at /session` + GET `/session` 404 (2026-08-28) | `AUTH_ORIGIN` — НЕ «доменная подсказка», а полный `baseURL` (origin + path). Модуль подставляет его вместо `baseURL` в `url.js:15–20`, затем отрезает до **pathname** в `url.js:21–23`. Пример поломки: `AUTH_ORIGIN=http://localhost:3000` → pathname `''` → запрос уходит на `/session` вместо `/api/auth/session` → 404 + срабатывает детектор рекурсии. Корректно — только с путём: `AUTH_ORIGIN=http://localhost:3000/api/auth` | В dev работает и без переменной (дефолт `auth.baseURL: '/api/auth'`), warning безвреден. Держим `AUTH_ORIGIN=http://localhost:3000/api/auth` — тишина в логах + паритет с продом | Перед деплоем на Vercel (спринт 5): `AUTH_ORIGIN=https://<домен>/api/auth` (staging + production). Также на проде обязателен `NUXT_AUTH_SECRET` (без него хендлер падает `Error: NO_SECRET`) |
 
 ---
 

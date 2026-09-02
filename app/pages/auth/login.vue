@@ -21,12 +21,16 @@
 <script setup lang="ts">
   import type { LoginSchema } from '#shared/schemas/auth.schema';
 
-  definePageMeta({ layout: 'auth' });
+  definePageMeta({
+    layout: 'auth',
+    auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
+  });
 
   useSeoMeta({ robots: 'noindex' });
 
   const route = useRoute();
   const toast = useToast();
+  const { signIn } = useAuth();
 
   // Куда вернуть пользователя после входа: из ?redirect= берём только относительные пути — защита от open redirect (?redirect=https://фишинг-клон-банка.ru)
   function getRedirectTarget() {
@@ -38,11 +42,28 @@
   }
 
   async function onSubmitted(data: LoginSchema) {
-    toast.add({
-      title: 'Вы вошли',
-      description: `Добро пожаловать, ${data.email}`,
-      color: 'success',
+    // signIn dispatch-ает форму на /api/auth/callback/credentials (с CSRF-токеном),
+    // next-auth вызывает наш authorize(), ставит HTTP-only cookie и отвечает.
+    // redirect:false — НЕ переходим автоматически, а сами решаем, куда и как показать ошибку.
+    const res = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false,
     });
-    await navigateTo(getRedirectTarget(), { replace: true });
+
+    if (res?.error) {
+      toast.add({
+        title: 'Не удалось войти',
+        description: 'Неверный email или пароль',
+        color: 'error',
+      });
+    } else {
+      toast.add({
+        title: 'Вы вошли',
+        description: `Добро пожаловать, ${data.email}`,
+        color: 'success',
+      });
+      await navigateTo(getRedirectTarget(), { replace: true });
+    }
   }
 </script>
