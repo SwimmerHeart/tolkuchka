@@ -1,41 +1,5 @@
 import type { Category, Product } from '../schemas/product.schema';
-
-import imgElectronics1 from './images/electronics-small-1.jpg';
-import imgElectronics2 from './images/electronics-small-2.jpg';
-import imgElectronics3 from './images/electronics-small-3.jpg';
-import imgElectronics4 from './images/electronics-small-4.jpg';
-import imgElectronics5 from './images/electronics-small-5.jpg';
-import imgElectronics6 from './images/electronics-small-6.jpg';
-import imgHome1 from './images/home-small-1.jpg';
-import imgHome2 from './images/home-small-2.jpg';
-import imgHome3 from './images/home-small-3.jpg';
-import imgHome4 from './images/home-small-4.jpg';
-import imgHome5 from './images/home-small-5.jpg';
-import imgHome6 from './images/home-small-6.jpg';
-import imgClothing1 from './images/clothing-small-1.jpg';
-import imgClothing2 from './images/clothing-small-2.jpg';
-import imgClothing3 from './images/clothing-small-3.jpg';
-import imgClothing4 from './images/clothing-small-4.jpg';
-import imgClothing5 from './images/clothing-small-5.jpg';
-import imgClothing6 from './images/clothing-small-6.jpg';
-import imgSport1 from './images/sport-small-1.jpg';
-import imgSport2 from './images/sport-small-2.jpg';
-import imgSport3 from './images/sport-small-3.jpg';
-import imgSport4 from './images/sport-small-4.jpg';
-import imgSport5 from './images/sport-small-5.jpg';
-import imgSport6 from './images/sport-small-6.jpg';
-import imgBooks1 from './images/books-small-1.jpg';
-import imgBooks2 from './images/books-small-2.jpg';
-import imgBooks3 from './images/books-small-3.jpg';
-import imgBooks4 from './images/books-small-4.jpg';
-import imgBooks5 from './images/books-small-5.jpg';
-import imgBooks6 from './images/books-small-6.jpg';
-import imgToys1 from './images/toys-small-1.jpg';
-import imgToys2 from './images/toys-small-2.jpg';
-import imgToys3 from './images/toys-small-3.jpg';
-import imgToys4 from './images/toys-small-4.jpg';
-import imgToys5 from './images/toys-small-5.jpg';
-import imgToys6 from './images/toys-small-6.jpg';
+import { productImages } from './product-images';
 
 const electronics: Category = { id: 'cat-electronics', slug: 'electronics', name: 'Электроника' };
 const home: Category = { id: 'cat-home', slug: 'home', name: 'Дом и кухня' };
@@ -55,7 +19,7 @@ export const products: Product[] = [
     description: 'Надёжный беспроводной звук, до 24 часов работы и шумоподавление.',
     price: 4990,
     oldPrice: 7490,
-    imageUrl: imgElectronics1,
+    imageUrl: productImages['electronics-1'],
     rating: 3.7,
     category: electronics,
   },
@@ -66,7 +30,7 @@ export const products: Product[] = [
     description: 'Компактная колонка с голосовым ассистентом и многокомнатной музыкой.',
     price: 3990,
     oldPrice: 4990,
-    imageUrl: imgElectronics2,
+    imageUrl: productImages['electronics-2'],
     rating: 4.5,
     category: electronics,
   },
@@ -76,7 +40,7 @@ export const products: Product[] = [
     name: 'Смарт-часы PulseFit',
     description: 'Трекер активности, пульс и уведомления от смартфона на экране AMOLED.',
     price: 8990,
-    imageUrl: imgElectronics3,
+    imageUrl: productImages['electronics-3'],
     rating: 4.8,
     category: electronics,
   },
@@ -86,7 +50,7 @@ export const products: Product[] = [
     name: 'Внешний SSD 1 ТБ',
     description: 'Портативный накопитель со скоростью до 1050 МБ/с и влагозащитой.',
     price: 6490,
-    imageUrl: imgElectronics4,
+    imageUrl: productImages['electronics-4'],
     rating: 4.6,
     category: electronics,
   },
@@ -97,7 +61,7 @@ export const products: Product[] = [
     description: 'Тихие переключатели, подсветка и сменные кейкапы в комплекте.',
     price: 5490,
     oldPrice: 6990,
-    imageUrl: imgElectronics5,
+    imageUrl: productImages['electronics-5'],
     rating: 4.6,
     category: electronics,
   },
@@ -107,7 +71,7 @@ export const products: Product[] = [
     name: 'Чайник электрический стильный',
     description: 'Быстрый нагрев, регулировка температуры и автоотключение.',
     price: 3490,
-    imageUrl: imgElectronics6,
+    imageUrl: productImages['electronics-6'],
     rating: 4.5,
     category: electronics,
   },
@@ -119,7 +83,7 @@ export const products: Product[] = [
     name: 'Чайный сервиз керамический, 12 предметов',
     description: 'Покрытие создано для ежедневного использования и посудомойки.',
     price: 2890,
-    imageUrl: imgHome1,
+    imageUrl: productImages['home-1'],
     rating: 4.7,
     category: home,
   },
@@ -130,7 +94,7 @@ export const products: Product[] = [
     description: 'Индукционная дно, без масла и без прилипания.',
     price: 2490,
     oldPrice: 3290,
-    imageUrl: imgHome2,
+    imageUrl: productImages['home-2'],
     rating: 4.5,
     category: home,
   },
@@ -140,7 +104,7 @@ export const products: Product[] = [
     name: 'Кофеварка капельная',
     description: 'Готовит до 12 чашек и поддерживает температуру в течение часа.',
     price: 5990,
-    imageUrl: imgHome3,
+    imageUrl: productImages['home-3'],
     rating: 4.6,
     category: home,
   },
@@ -151,7 +115,7 @@ export const products: Product[] = [
     description: 'Плотный хлопок с мягким шелковистым блеском.',
     price: 3990,
     oldPrice: 4990,
-    imageUrl: imgHome4,
+    imageUrl: productImages['home-4'],
     rating: 4.8,
     category: home,
   },
@@ -162,7 +126,7 @@ export const products: Product[] = [
     description: 'Анатомическая форма поддерживает шею во время сна.',
     price: 1790,
     oldPrice: 2390,
-    imageUrl: imgHome5,
+    imageUrl: productImages['home-5'],
     rating: 4.4,
     category: home,
   },
@@ -172,7 +136,7 @@ export const products: Product[] = [
     name: 'Хлебопечка',
     description: 'Выпекает 8 программ: от белого хлеба до безглютенового.',
     price: 9990,
-    imageUrl: imgHome6,
+    imageUrl: productImages['home-6'],
     rating: 4.6,
     category: home,
   },
@@ -185,7 +149,7 @@ export const products: Product[] = [
     description: 'Тёплый пуховый наполнитель и водонепроницаемая мембрана.',
     price: 12990,
     oldPrice: 16990,
-    imageUrl: imgClothing1,
+    imageUrl: productImages['clothing-1'],
     rating: 4.8,
     category: clothing,
   },
@@ -195,7 +159,7 @@ export const products: Product[] = [
     name: 'Свитер из мериноса',
     description: 'Мягкая шерсть без колкости для повседневной носки.',
     price: 3990,
-    imageUrl: imgClothing2,
+    imageUrl: productImages['clothing-2'],
     rating: 4.5,
     category: clothing,
   },
@@ -206,7 +170,7 @@ export const products: Product[] = [
     description: 'Плотный деним, посадка средней высоты.',
     price: 2990,
     oldPrice: 3990,
-    imageUrl: imgClothing3,
+    imageUrl: productImages['clothing-3'],
     rating: 4.4,
     category: clothing,
   },
@@ -216,7 +180,7 @@ export const products: Product[] = [
     name: 'Комплект термобелья',
     description: 'Отводит влагу и сохраняет тепло до —20 °C.',
     price: 2490,
-    imageUrl: imgClothing4,
+    imageUrl: productImages['clothing-4'],
     rating: 4.6,
     category: clothing,
   },
@@ -226,7 +190,7 @@ export const products: Product[] = [
     name: 'Кроссовки городские',
     description: 'Лёгкая подошва и дышащий верх для долгих прогулок.',
     price: 5490,
-    imageUrl: imgClothing5,
+    imageUrl: productImages['clothing-5'],
     rating: 4.3,
     category: clothing,
   },
@@ -236,7 +200,7 @@ export const products: Product[] = [
     name: 'Дождевик складной',
     description: 'Компактный в сложенном виде, умещается в карман.',
     price: 990,
-    imageUrl: imgClothing6,
+    imageUrl: productImages['clothing-6'],
     rating: 4.2,
     category: clothing,
   },
@@ -249,7 +213,7 @@ export const products: Product[] = [
     description: 'Компактно заменяют полноценный набор весов для дома.',
     price: 4990,
     oldPrice: 5990,
-    imageUrl: imgSport1,
+    imageUrl: productImages['sport-1'],
     rating: 4.7,
     category: sport,
   },
@@ -259,7 +223,7 @@ export const products: Product[] = [
     name: 'Коврик для йоги',
     description: 'Толщина 6 мм, нескользящее покрытие обеих сторон.',
     price: 1490,
-    imageUrl: imgSport2,
+    imageUrl: productImages['sport-2'],
     rating: 4.5,
     category: sport,
   },
@@ -269,7 +233,7 @@ export const products: Product[] = [
     name: 'Велоэргометр домашний',
     description: 'Магнитная нагрузка и датчик пульса на рукоятках.',
     price: 35990,
-    imageUrl: imgSport3,
+    imageUrl: productImages['sport-3'],
     rating: 4.6,
     category: sport,
   },
@@ -279,7 +243,7 @@ export const products: Product[] = [
     name: 'Мяч футбольный',
     description: 'Влагостойкая поверхность и усиленные швы.',
     price: 1990,
-    imageUrl: imgSport4,
+    imageUrl: productImages['sport-4'],
     rating: 4.4,
     category: sport,
   },
@@ -290,7 +254,7 @@ export const products: Product[] = [
     description: 'Лёгкий, с мягкой ёмкостью для воды на 1.5 литра.',
     price: 2490,
     oldPrice: 2990,
-    imageUrl: imgSport5,
+    imageUrl: productImages['sport-5'],
     rating: 4.5,
     category: sport,
   },
@@ -300,7 +264,7 @@ export const products: Product[] = [
     name: 'Эспандер-тяга',
     description: 'Регулируемая нагрузка для разминки и укрепления мышц.',
     price: 890,
-    imageUrl: imgSport6,
+    imageUrl: productImages['sport-6'],
     rating: 4.3,
     category: sport,
   },
@@ -313,7 +277,7 @@ export const products: Product[] = [
     description: 'История о соседях, которые знали друг о друге слишком много.',
     price: 690,
     oldPrice: 890,
-    imageUrl: imgBooks1,
+    imageUrl: productImages['books-1'],
     rating: 4.6,
     category: books,
   },
@@ -324,7 +288,7 @@ export const products: Product[] = [
     description: 'Современный учебник с примерами на реальных кейсах.',
     price: 1990,
     oldPrice: 2490,
-    imageUrl: imgBooks2,
+    imageUrl: productImages['books-2'],
     rating: 4.8,
     category: books,
   },
@@ -334,7 +298,7 @@ export const products: Product[] = [
     name: '«Садоводство на балконе»',
     description: 'Как вырастить зелень и томаты в городской квартире.',
     price: 990,
-    imageUrl: imgBooks3,
+    imageUrl: productImages['books-3'],
     rating: 4.4,
     category: books,
   },
@@ -344,7 +308,7 @@ export const products: Product[] = [
     name: '«Маленький принц» (с иллюстрациями)',
     description: 'Классика в подарочном оформлении с авторскими рисунками.',
     price: 790,
-    imageUrl: imgBooks4,
+    imageUrl: productImages['books-4'],
     rating: 4.9,
     category: books,
   },
@@ -354,7 +318,7 @@ export const products: Product[] = [
     name: '«Кулинарная книга пекаря»',
     description: '40 проверенных рецептов от закваски до круассанов.',
     price: 1290,
-    imageUrl: imgBooks5,
+    imageUrl: productImages['books-5'],
     rating: 4.5,
     category: books,
   },
@@ -364,7 +328,7 @@ export const products: Product[] = [
     name: 'Графический роман «Город теней»',
     description: 'Неоновый детектив в твёрдом переплёте.',
     price: 1590,
-    imageUrl: imgBooks6,
+    imageUrl: productImages['books-6'],
     rating: 4.7,
     category: books,
   },
@@ -377,7 +341,7 @@ export const products: Product[] = [
     description: 'Собирается в стартовый комплекс с подвижными элементами.',
     price: 4990,
     oldPrice: 5990,
-    imageUrl: imgToys1,
+    imageUrl: productImages['toys-1'],
     rating: 4.8,
     category: toys,
   },
@@ -387,7 +351,7 @@ export const products: Product[] = [
     name: 'Мягкая игрушка панда',
     description: 'Приятный на ощупь гипоаллергенный материал.',
     price: 1490,
-    imageUrl: imgToys2,
+    imageUrl: productImages['toys-2'],
     rating: 4.9,
     category: toys,
   },
@@ -398,7 +362,7 @@ export const products: Product[] = [
     description: 'Логическая игра для 2–6 игроков от 8 лет.',
     price: 2490,
     oldPrice: 2990,
-    imageUrl: imgToys3,
+    imageUrl: productImages['toys-3'],
     rating: 4.6,
     category: toys,
   },
@@ -408,7 +372,7 @@ export const products: Product[] = [
     name: 'Железная дорога с мостом',
     description: 'Набор из 60 деталей с локомотивом на батарейках.',
     price: 6990,
-    imageUrl: imgToys4,
+    imageUrl: productImages['toys-4'],
     rating: 4.5,
     category: toys,
   },
@@ -418,7 +382,7 @@ export const products: Product[] = [
     name: 'Набор для опытов «Юный химик»',
     description: '15 безопасных экспериментов с инструкцией для детей.',
     price: 1890,
-    imageUrl: imgToys5,
+    imageUrl: productImages['toys-5'],
     rating: 4.4,
     category: toys,
   },
@@ -428,7 +392,7 @@ export const products: Product[] = [
     name: 'Планшет для рисования без экрана',
     description: 'Рисунок стирается нажатием кнопки — бесконечный холст.',
     price: 3490,
-    imageUrl: imgToys6,
+    imageUrl: productImages['toys-6'],
     rating: 4.3,
     category: toys,
   },
