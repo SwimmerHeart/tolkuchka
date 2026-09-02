@@ -55,3 +55,4 @@ generated/
 # Team internal docs
 AGENTS.md
 .team/CI-CD.md
+/app/generated/prisma
