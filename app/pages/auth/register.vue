@@ -86,12 +86,17 @@
 <script setup lang="ts">
   import type { FormSubmitEvent } from '@nuxt/ui';
   import { registerSchema, type RegisterSchema } from '#shared/schemas/auth.schema';
+  import type { PublicUser } from '#shared/schemas/user.schema';
 
-  definePageMeta({ layout: 'auth' });
+  definePageMeta({
+    layout: 'auth',
+    auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
+  });
 
   useSeoMeta({ robots: 'noindex' });
 
   const route = useRoute();
+  const { signIn } = useAuth();
 
   const state = reactive<RegisterSchema>({
     name: '',
@@ -103,12 +108,36 @@
 
   const toast = useToast();
   async function onSubmit(event: FormSubmitEvent<RegisterSchema>) {
-    toast.add({
-      title: 'Успешно',
-      description: 'Регистрация прошла успешно',
-      color: 'success',
-    });
-    console.warn(event.data);
+    const { confirm: _confirm, ...payload } = event.data;
+    try {
+      // 1 Создаём пользователя.
+      const { user } = await $fetch<{ user: PublicUser }>('/api/auth/register', {
+        method: 'POST',
+        body: payload,
+      });
+
+      // 2 Входим только что созданным пользователем — теперь сессию выдаёт next-auth.
+      const res = await signIn('credentials', {
+        email: payload.email,
+        password: payload.password,
+        redirect: false,
+      });
+      if (res?.error) throw new Error(res.error);
+
+      toast.add({
+        title: 'Успешно',
+        description: 'Регистрация прошла успешно',
+        color: 'success',
+      });
+      await navigateTo(user.role === 'seller' ? '/dashboard' : '/', { replace: true });
+    } catch (error) {
+      toast.add({
+        title: 'Не удалось зарегистрироваться',
+        description: apiErrorMessage(error),
+        color: 'error',
+      });
+      console.error(error);
+    }
   }
 
   const showPassword = ref(false);
