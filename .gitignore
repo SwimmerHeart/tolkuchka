@@ -56,3 +56,4 @@ generated/
 AGENTS.md
 .team/CI-CD.md
 /app/generated/prisma
+server/generated/
