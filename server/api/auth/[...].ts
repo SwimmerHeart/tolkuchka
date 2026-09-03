@@ -1,6 +1,9 @@
 import { NuxtAuthHandler } from '#auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { mockUsers } from '#server/utils/mock-users';
+import { prisma } from '#server/utils/prisma';
+import { mapRole } from '#server/utils/roles';
+import bcrypt from 'bcrypt';
+
 
 // Runtime-нюанс next-auth@4 под Vite: CJS-модуль экспортирует функцию через
 // exports.default, и сборка отдаёт namespace вместо функции. Чиним в одном месте:
@@ -42,12 +45,20 @@ export default NuxtAuthHandler({
         password: { label: 'Пароль', type: 'password' },
       },
       async authorize(credentials) {
-        const user = mockUsers.find(
-          (u) => u.email === credentials?.email && u.password === credentials?.password,
-        );
+        if (!credentials?.email || !credentials?.password) return null;
 
-        // Возвращаем только поля, которые пойдут в JWT (id автоматически попадёт в sub).
-        return user ? { id: user.id, email: user.email, name: user.name, role: user.role } : null;
+        // Поиск пользователя в БД.
+        const user = await prisma.user.findUnique({ where: { email: credentials.email } });
+        if (!user?.passwordHash) return null;
+        const valid = await bcrypt.compare(credentials.password, user.passwordHash);
+        if (!valid) return null;
+
+        return {
+          id: user.id,
+          email: user.email,
+          name: user.name,
+          role: mapRole(user.role)
+        };
       },
     }),
   ],
