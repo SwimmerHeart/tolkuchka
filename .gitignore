@@ -54,4 +54,6 @@ generated/
 
 # Team internal docs
 AGENTS.md
+.agents
+skills-lock.json
 .team/CI-CD.md
