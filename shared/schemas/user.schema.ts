@@ -40,7 +40,7 @@ export const publicUserSchema = z.object({
   id: z.string(),
   email: z.email(),
   name: z.string(),
-  role: z.enum(['buyer', 'seller']),
+  role: z.enum(['buyer', 'seller', 'admin']),
 });
 
 export type PublicUser = z.output<typeof publicUserSchema>;
