@@ -20,10 +20,20 @@ export const productSchema = z.object({
   description: z.string(),
   price: z.number().int().positive(),
   oldPrice: z.number().int().positive().optional(),
-  // Фото пока нет → placeholder-блок, позже подставится imageUrl
+  // Мелкое фото для карточек каталога
   imageUrl: z.string().nullable().optional(),
+  // Крупные фото для галереи карточки товара (первое = главное)
+  images: z.array(z.string()).optional(),
+  stock: z.number().int().min(0).default(0).optional(),
   rating: z.number().min(0).max(5).optional(),
   category: categorySchema,
+  seller: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      slug: z.string(),
+    })
+    .optional(),
 });
 
 export type Product = z.output<typeof productSchema>;
