@@ -32,6 +32,27 @@
         </button>
       </div>
 
+      <template v-if="isOverflow">
+        <UButton
+          v-if="hasStartFade"
+          icon="i-heroicons-chevron-left"
+          size="sm"
+          color="neutral"
+          variant="ghost"
+          class="absolute left-0 top-1/2 z-10 -translate-y-1/2 bg-white/90 shadow-sm hover:bg-white dark:bg-gray-800/70 dark:hover:bg-gray-800/90"
+          @click="scrollThumbnails(-1)"
+        />
+        <UButton
+          v-if="hasEndFade"
+          icon="i-heroicons-chevron-right"
+          size="sm"
+          color="neutral"
+          variant="ghost"
+          class="absolute right-0 top-1/2 z-10 -translate-y-1/2 bg-white/90 shadow-sm hover:bg-white dark:bg-gray-800/70 dark:hover:bg-gray-800/90"
+          @click="scrollThumbnails(1)"
+        />
+      </template>
+
       <div
         v-if="hasStartFade"
         class="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-gray-50 to-transparent dark:from-gray-900"
@@ -77,4 +98,10 @@
   onBeforeUnmount(() => {
     resizeObserver?.disconnect();
   });
+
+  function scrollThumbnails(positions: number) {
+    const el = scrollEl.value;
+    if (!el) return;
+    el.scrollBy({ left: positions * 176, behavior: 'smooth' });
+  }
 </script>
