@@ -34,7 +34,7 @@
 
   // Куда вернуть пользователя после входа: из ?redirect= берём только относительные пути — защита от open redirect (?redirect=https://фишинг-клон-банка.ru)
   function getRedirectTarget() {
-    const redirect = route.query.redirect;
+    const redirect = route.query.redirect || route.query.callbackUrl;
     if (typeof redirect === 'string' && redirect.startsWith('/') && !redirect.startsWith('//')) {
       return redirect;
     }

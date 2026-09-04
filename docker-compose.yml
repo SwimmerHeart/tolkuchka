@@ -12,7 +12,7 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data # Данные сохраняются между перезапусками
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U marketplace -d marketplace']
+      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}']
       interval: 5s # Проверка каждые 5 сек
       timeout: 5s # Таймаут ответа
       retries: 5 # Попыток до "здоров"
