@@ -86,6 +86,11 @@
     type UpdateProfileSchema,
   } from '#shared/schemas/user.schema';
 
+  definePageMeta({
+    middleware: ['sidebase-auth'],
+    auth: true,
+  });
+  
   useSeoMeta({
     title: 'Настройки аккаунта',
     robots: 'noindex',
