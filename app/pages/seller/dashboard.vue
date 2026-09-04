@@ -8,6 +8,6 @@
 <script setup lang="ts">
   definePageMeta({
     layout: 'dashboard',
-    auth: true,
+    middleware: ['seller'],
   });
 </script>
