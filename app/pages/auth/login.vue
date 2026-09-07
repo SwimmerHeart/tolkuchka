@@ -26,7 +26,7 @@
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
   });
 
-  useSeoMeta({ robots: 'noindex' });
+  useSeoMeta({ title: 'Вход — Толкучка', robots: 'noindex' });
 
   const route = useRoute();
   const toast = useToast();
