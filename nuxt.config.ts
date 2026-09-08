@@ -8,7 +8,7 @@ export default defineNuxtConfig({
       interval: 1000,
     },
   },
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@sidebase/nuxt-auth'],
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@sidebase/nuxt-auth', '@scalar/nuxt'],
   auth: {
     isEnabled: true,
     baseURL: '/api/auth',
@@ -35,9 +35,26 @@ export default defineNuxtConfig({
       collections: ['heroicons'],
     },
   },
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+  },  
   routeRules: {
+    '/api-docs': { ssr: false },
+    '/api-docs/**': { ssr: false },
     // страницы каталога пересобираются не чаще раза в час
     '/products/**': { isr: 3600 },
     '/categories/**': { isr: 3600 },
+  },
+  scalar: {
+    pathRouting: {
+      basePath: '/api-docs',
+    },
+    metaData: {
+      title: 'Толкучка API',
+    },
+    darkMode: true,
+    showSidebar: true,
   },
 });
