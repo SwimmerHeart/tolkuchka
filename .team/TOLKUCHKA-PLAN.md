@@ -37,7 +37,7 @@
 | CI/CD | GitHub Actions |
 | Деплой | Vercel (staging из develop, production из main) |
 | Мониторинг | Sentry (опционально) |
-| API Docs | ⚠️ инструмент выбирает Dev 2 в спринте 1–2 (`@sidebase/nuxt-swagger` не существует на npm; кандидаты: `@scalar/nuxt` или `swagger-ui-dist` — оба рендерят один OpenAPI-спек с эндпоинтами и Test request) |
+| API Docs | `@scalar/nuxt` (Scalar UI на `/api-docs`, тёмная тема) + Nitro OpenAPI-спека (`nitro.experimental.openAPI` → `/_openapi.json`) |
 
 ### Спринтовые зависимости (кто и когда ставит)
 
@@ -47,7 +47,7 @@
 |--------|--------|-----|--------|
 | `prisma`, `@prisma/client` | 1–2 | Dev 2 | init, схема, первая миграция |
 | `@sidebase/nuxt-auth`, `next-auth@~4.21.1` (peer!), `bcrypt` | 1–2 | Dev 2 | auth (#9) |
-| Scalar / swagger-ui-dist (выбор) | 1–2 | Dev 2 | API docs (#10) |
+| `@scalar/nuxt` | 1–2 | Dev 2 | API docs (#10) ✅ |
 | `pinia`, `@pinia/nuxt` | 1–2 | Dev 2 | auth store (#14); далее каталог (#21), корзина |
 | `vitest`, `@nuxt/test-utils` | 5 | по задаче | тесты (#50–51) |
 
@@ -215,29 +215,38 @@ tolkuchka/
 
 ---
 
-## API Документация (Swagger / OpenAPI)
+## API Документация (Scalar / OpenAPI)
 
-> ⚠️ **Решение команды 2026-08-21:** заявленный в плане `@sidebase/nuxt-swagger` **не существует на npm**. Выбор инструмента — задача Dev 2 в спринте 1–2 (задача #10). Кандидаты: `@scalar/nuxt` (нативный Nuxt-модуль, современный UI) или `swagger-ui-dist` (классический Swagger UI, ручная интеграция). Оба рендерят один и тот же OpenAPI-спек: эндпоинты, параметры, схемы, Test request. Конфигурация ниже — иллюстративная, подлежит замене выбранным инструментом.
+> ✅ **Решение 2026-09-08 (задача #10):** выбран `@scalar/nuxt` (нативный Nuxt-модуль, современный UI, тёмная тема). Заявленный ранее `@sidebase/nuxt-swagger` на npm не существует. `swagger-ui-dist` — архивный запасной вариант (ручная интеграция).
 
 Для тестирования бэкенда используется OpenAPI-документация UI — автоматически генерируемая спецификация из TypeScript-типов server routes.
 
 ### Как это работает
 
-1. Модуль сканирует `server/api/` и генерирует OpenAPI-спеку на основе типов возвращаемых значений и параметров
-2. Swagger UI доступен по адресу: `http://localhost:3000/api-docs`
-3. OpenAPI JSON доступен по: `http://localhost:3000/api-docs/openapi.json`
+1. Nitro генерирует OpenAPI-спеку: `nitro.experimental.openAPI: true` → JSON доступен по `/_openapi.json`
+2. Модуль `@scalar/nuxt` регистрирует страницу `/api-docs/:pathMatch(.*)*` (спасибо `pathRouting.basePath`), рендерит Scalar UI и тянет спеку с `/_openapi.json`
+3. Страница отдаётся как SPA: `routeRules: { '/api-docs': { ssr: false }, '/api-docs/**': { ssr: false } }` — SSR-рендер компонента Scalar крашится в Nitro (`web-worker` → `threads.workerData` undefined, см. `@scalar/nuxt` SSR-issue). Клиентская отрисовка не страдает.
 
 ### Конфигурация (`nuxt.config.ts`)
 
 ```ts
 export default defineNuxtConfig({
-  modules: [
-    '@nuxt/ui',
-    '@pinia/nuxt',
-    '@sidebase/nuxt-auth',
-    // API-docs модуль: выбор в задаче #10 (Scalar / swagger-ui-dist)
-  ],
-  // swagger: { ... } — конфиг появится после выбора инструмента
+  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@sidebase/nuxt-auth', '@scalar/nuxt'],
+  nitro: {
+    experimental: {
+      openAPI: true, // генерация /_openapi.json
+    },
+  },
+  routeRules: {
+    '/api-docs': { ssr: false },
+    '/api-docs/**': { ssr: false },
+  },
+  scalar: {
+    pathRouting: { basePath: '/api-docs' },
+    metaData: { title: 'Толкучка API' },
+    darkMode: true,
+    showSidebar: true,
+  },
 })
 ```
 
@@ -524,7 +533,7 @@ enum OrderStatus {
 | 7 | Инициализация Prisma: `npx prisma init`, создание schema.prisma, первая миграция | Dev 2 | Prisma, PostgreSQL, миграции |
 | 8 | Настройка `server/utils/prisma.ts` — синглтон для server/ | Dev 2 | Server utils, синглтон-паттерн |
 | 9 | Настройка `@sidebase/nuxt-auth` — Credentials провайдер + JWT стратегия | Dev 2 | Auth, JWT, cookies |
-| 10 | API-документация: выбрать инструмент (`@scalar/nuxt` / `swagger-ui-dist`) и поднять UI на `/api-docs` | Dev 2 | OpenAPI, Nitro-спека, документация |
+| 10 | API-документация: выбран `@scalar/nuxt`, UI на `/api-docs` (Nitro `experimental.openAPI`, SPA-рouterules) — ✅ | Dev 2 | OpenAPI, Nitro-спека, документация |
 | 11 | Создание layouts (`default`, `dashboard`), AppHeader, AppFooter на Nuxt UI | Dev 1 | Layouts, Nuxt UI компоненты |
 | 12 | Страницы `auth/login` и `auth/register` (Nuxt UI формы) — при регистрации выбор роли «Покупатель / Продавец» | Dev 1 | SSR Forms, Nuxt UI |
 | 13 | Общие zod-схемы `shared/schemas/auth.schema.ts` (login/register; правило: схему каждой фичи пишет её владелец), подключение к `UForm :schema` и `readValidatedBody`. Пакет zod уже установлен (36a3772) | Dev 1 | zod, валидация, shared/ |
@@ -534,7 +543,7 @@ enum OrderStatus {
 | 17 | Профиль пользователя (`account/settings`) | Dev 1 | Protected routes |
 | 18 | Настройка `.github/workflows/ci.yml` — ESLint + typecheck + тесты | Dev 2 | CI/CD, GitHub Actions |
 
-**Exit criteria:** Регистрация → Login → Доступ к профилю → Logout. Защищённые страницы перенаправляют на login. CI запускается на PR. Swagger UI доступен по `/api-docs`. Postgres работает в Docker у обоих, первая миграция применена. Тема Nuxt UI настроена (палитра, светлая/тёмная), переключатель темы работает. [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) создан и согласован. Формы auth валидируются через zod (`UForm :schema` + `readValidatedBody`), схемы в `shared/schemas/auth.schema.ts`.
+**Exit criteria:** Регистрация → Login → Доступ к профилю → Logout. Защищённые страницы перенаправляют на login. CI запускается на PR. Scalar UI доступен по `/api-docs`, OpenAPI-спека — на `/_openapi.json`. Postgres работает в Docker у обоих, первая миграция применена. Тема Nuxt UI настроена (палитра, светлая/тёмная), переключатель темы работает. [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) создан и согласован. Формы auth валидируются через zod (`UForm :schema` + `readValidatedBody`), схемы в `shared/schemas/auth.schema.ts`.
 
 ---
 
@@ -792,8 +801,8 @@ main (protected, автодеплой на PRODUCTION)
 - [@sidebase/nuxt-auth](https://sidebase.io/nuxt-auth)
 - [Nuxt Image](https://image.nuxt.com/)
 - [Vercel Nuxt Guide](https://vercel.com/docs/frameworks/nuxtjs)
-- [Scalar Nuxt-интеграция](https://github.com/scalar/scalar/tree/main/integrations/nuxt) — кандидат для задачи #10
-- [Swagger UI (dist)](https://www.npmjs.com/package/swagger-ui-dist) — второй кандидат
+- [Scalar Nuxt-интеграция](https://github.com/scalar/scalar/tree/main/integrations/nuxt) — используется (задача #10) ✅
+- [openapi добавление meta в Nitro docs](https://nitro.build/config#openapi) — генерация `/_openapi.json`
 - [OpenAPI 3.0 Specification](https://swagger.io/specification/)
 - [Docker Compose Docs](https://docs.docker.com/compose/)
 - [GitHub Actions Docs](https://docs.github.com/en/actions)
