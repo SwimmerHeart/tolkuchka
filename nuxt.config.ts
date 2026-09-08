@@ -22,6 +22,7 @@ export default defineNuxtConfig({
     url: 'https://tolkuchka.ru',
   },
   sitemap: {
+    exclude: ['/auth/**', '/seller/**', '/account/**', '/palettes'],
     urls: [
       ...categories.map((c) => ({
         loc: `/categories/${c.slug}`,
