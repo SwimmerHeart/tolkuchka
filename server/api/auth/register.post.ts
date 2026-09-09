@@ -26,7 +26,8 @@ export default defineEventHandler(async (event) => {
         email: created.email,
         name: created.name,
         role: mapRole(created.role),
-      } };
+      },
+    };
   } catch (e) {
     // P2002 — уникальный email уже существует
     if (e && typeof e === 'object' && 'code' in e && e.code === 'P2002') {

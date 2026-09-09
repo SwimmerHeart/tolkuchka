@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     '@sidebase/nuxt-auth',
     '@nuxtjs/sitemap',
     '@nuxtjs/robots',
+    '@scalar/nuxt',
   ],
   site: {
     url: process.env.NUXT_SITE_URL,
@@ -62,9 +63,26 @@ export default defineNuxtConfig({
       collections: ['heroicons'],
     },
   },
+  nitro: {
+    experimental: {
+      openAPI: true,
+    },
+  },  
   routeRules: {
+    '/api-docs': { ssr: false },
+    '/api-docs/**': { ssr: false },
     // страницы каталога пересобираются не чаще раза в час
     '/products/**': { isr: 3600 },
     '/categories/**': { isr: 3600 },
+  },
+  scalar: {
+    pathRouting: {
+      basePath: '/api-docs',
+    },
+    metaData: {
+      title: 'Толкучка API',
+    },
+    darkMode: true,
+    showSidebar: true,
   },
 });

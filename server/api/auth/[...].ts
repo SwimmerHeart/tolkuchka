@@ -4,15 +4,12 @@ import { prisma } from '#server/utils/prisma';
 import { mapRole } from '#server/utils/roles';
 import bcrypt from 'bcrypt';
 
-
 // Runtime-нюанс next-auth@4 под Vite: CJS-модуль экспортирует функцию через
 // exports.default, и сборка отдаёт namespace вместо функции. Чиним в одном месте:
 // говорим TS «у импорта есть свойство default, тип которого = типу самого импорта»,
 // поэтому все остальные типы (authorize, credentials) выводятся как раньше.
-const Credentials = (
-  CredentialsProvider as unknown as { default: typeof CredentialsProvider }
-).default
-
+const Credentials = (CredentialsProvider as unknown as { default: typeof CredentialsProvider })
+  .default;
 
 export default NuxtAuthHandler({
   secret: useRuntimeConfig().authSecret, // .env через runtimeConfig, next-auth подписывает им JWT и шифрует cookie-значения.
@@ -20,7 +17,10 @@ export default NuxtAuthHandler({
   callbacks: {
     // user типизирован как User | AdapterUser; наша аугментация добавляет role в User
     async jwt({ token, user }) {
-      if (user) token.role = user.role;
+      if (user) {
+        token.role = user.role;
+        token.avatarUrl = user.avatarUrl;
+      }
       return token;
     },
     // session() вызывается на каждый запрос /api/auth/session (и SSR-гидрацию).
@@ -31,6 +31,7 @@ export default NuxtAuthHandler({
         if (token.sub) session.user.id = token.sub;
         // token.role — опциональный, поэтому требуется сужение (каст) при присваивании в обязательное поле
         session.user.role = token.role as 'buyer' | 'seller';
+        session.user.avatarUrl = token.avatarUrl;
       }
       return session;
     },
@@ -57,7 +58,8 @@ export default NuxtAuthHandler({
           id: user.id,
           email: user.email,
           name: user.name,
-          role: mapRole(user.role)
+          role: mapRole(user.role),
+          avatarUrl: user.avatarUrl,
         };
       },
     }),
