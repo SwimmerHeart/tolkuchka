@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     '@nuxtjs/robots',
   ],
   site: {
-    url: 'https://tolkuchka.ru',
+    url: process.env.NUXT_SITE_URL,
   },
   sitemap: {
     exclude: ['/auth/**', '/seller/**', '/account/**', '/palettes'],
