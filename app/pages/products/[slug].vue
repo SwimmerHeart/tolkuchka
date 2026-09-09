@@ -114,9 +114,15 @@
 
   const quantity = ref(1);
   const toast = useToast();
+  const cart = useCart();
 
-  function addToCart() {
-    // Заглушка: реальное поведение корзины — бэклог (task 29–30)
+  async function addToCart() {
+    const stock = product.value!.stock ?? 0;
+    const qty = Math.min(quantity.value, stock);
+    await cart.addToCart(product.value!.id, qty);
+    if (qty < quantity.value) {
+      toast.add({ title: `Доступно только ${stock} шт.`, color: 'warning' });
+    }
     toast.add({
       title: 'Добавлено в корзину',
       description: product.value!.name,
