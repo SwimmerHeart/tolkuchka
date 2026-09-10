@@ -1,4 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
+import { categories, products } from './shared/mocks/products';
+
 export default defineNuxtConfig({
   compatibilityDate: '2025-07-15',
   devtools: { enabled: true },
@@ -8,7 +10,33 @@ export default defineNuxtConfig({
       interval: 1000,
     },
   },
-  modules: ['@nuxt/eslint', '@nuxt/ui', '@pinia/nuxt', '@sidebase/nuxt-auth', '@scalar/nuxt'],
+  modules: [
+    '@nuxt/eslint',
+    '@nuxt/ui',
+    '@pinia/nuxt',
+    '@sidebase/nuxt-auth',
+    '@nuxtjs/sitemap',
+    '@nuxtjs/robots',
+    '@scalar/nuxt',
+  ],
+  site: {
+    url: process.env.NUXT_SITE_URL,
+  },
+  sitemap: {
+    exclude: ['/auth/**', '/seller/**', '/account/**', '/palettes'],
+    urls: [
+      ...categories.map((c) => ({
+        loc: `/categories/${c.slug}`,
+        changefreq: 'daily' as const,
+        priority: 0.8 as const,
+      })),
+      ...products.map((p) => ({
+        loc: `/products/${p.slug}`,
+        changefreq: 'hourly' as const,
+        priority: 0.7 as const,
+      })),
+    ],
+  },
   auth: {
     isEnabled: true,
     baseURL: '/api/auth',
