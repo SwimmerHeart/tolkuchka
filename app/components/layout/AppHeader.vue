@@ -98,5 +98,5 @@
     store.categories.map((c) => ({ label: c.name, to: `/categories/${c.slug}` })),
   );
 
-  if (!store.loaded) await store.fetch();
+  if (!store.categories.length) await store.fetchCategories();
 </script>
