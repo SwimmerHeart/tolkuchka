@@ -559,12 +559,12 @@ enum OrderStatus {
 | 20 | `server/api/products/index.get.ts` + `[slug].get.ts`, категории, zod-схема запроса, стор и страницы на серверных фильтрах/пагинации | Dev 1 ✅ | Server API, query params, Prisma, zod |
 | 21 | Pinia store `products.ts` — каталог, фильтры, кэш — ✅ PR #6 (на ревью) | Dev 1 | Pinia getters, caching |
 | 22 | `pages/products/index.vue` — каталог, фильтры, сортировка (ISR) + `pages/categories/[slug].vue` — страница категории (ISR) — ✅ PR #6 (на ревью) | Dev 1 | `useAsyncData`, ISR, routeRules |
-| 23 | `pages/products/[slug].vue` — карточка товара (SSR) | Dev 1 | Dynamic routes, definePageMeta |
-| 24 | SEO: `useHead`, `useSeoMeta` на каталоге и карточках | Dev 1 | SEO — мета-теги, Open Graph |
-| 25 | `@nuxtjs/sitemap` — автогенерация sitemap.xml | Dev 1 | Sitemap module |
-| 26 | `robots.txt` | Dev 1 | SEO basics |
-| 27 | Breadcrumb-навигация (Nuxt UI UBreadcrumb) | Dev 1 | Composables, route matching |
-| 28 | OG:image генерация для товаров | Dev 1 | Open Graph, SSR для ботов |
+| 23 | `pages/products/[slug].vue` — карточка товара (SSR) — ✅ | Dev 2 | Dynamic routes, definePageMeta |
+| 24 | SEO: `useHead`, `useSeoMeta` на каталоге и карточках — ✅ | Dev 1 | SEO — мета-теги, Open Graph |
+| 25 | `@nuxtjs/sitemap` — автогенерация sitemap.xml — ✅ | Dev 2 | Sitemap module |
+| 26 | `robots.txt` — ✅ | Dev 1 | SEO basics |
+| 27 | Breadcrumb-навигация (Nuxt UI UBreadcrumb) — ✅ (есть на карточке товара; на категориях не нужны, пока нет подкатегорий) | Dev 2 | Composables, route matching |
+| 28 | OG:image генерация для товаров — ✅ (og-теги настроены; на странице товара ogImage = первое фото) | Dev 1 | Open Graph, SSR для ботов |
 
 **Exit criteria:** Каталог с фильтрацией. Карточка товара с полным SEO. Googlebot видит контент. Lighthouse SEO > 90.
 

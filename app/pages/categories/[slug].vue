@@ -64,5 +64,9 @@
     title: () => (category.value ? `${category.value.name} — Толкучка` : 'Категория — Толкучка'),
     description: () =>
       category.value ? `Товары категории "${category.value.name}" на Толкучке.` : '',
+    ogTitle: () =>
+      category.value ? `${category.value.name} — Толкучка` : 'Категория — Толкучка',
+    ogDescription: () =>
+      category.value ? `Товары категории "${category.value.name}" на Толкучке.` : '',
   });
 </script>

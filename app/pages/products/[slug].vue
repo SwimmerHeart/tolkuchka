@@ -151,6 +151,7 @@
   useSeoMeta({
     title: () => `${product.value!.name} — Толкучка`,
     description: () => product.value!.description,
+    ogType: () => `website`,
     ogTitle: () => product.value!.name,
     ogDescription: () => product.value!.description,
     ogImage: () => product.value!.imageUrl ?? product.value!.images?.[0] ?? undefined,
