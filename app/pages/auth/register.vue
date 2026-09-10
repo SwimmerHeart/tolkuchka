@@ -93,7 +93,7 @@
     auth: { unauthenticatedOnly: true, navigateAuthenticatedTo: '/' },
   });
 
-  useSeoMeta({ robots: 'noindex' });
+  useSeoMeta({ title: 'Регистрация — Толкучка', robots: 'noindex' });
 
   const route = useRoute();
   const { signIn } = useAuth();
