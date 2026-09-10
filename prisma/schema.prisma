@@ -19,7 +19,7 @@ model User {
   passwordHash  String?   @map("password_hash") // bcrypt-хеш
   name          String?
   slug          String?   @unique // публичный профиль продавца
-  bio           String?   // описание магазина продавца
+  bio           String? // описание магазина продавца
   avatarUrl     String?   @map("avatar_url") // аватар пользователя
   role          Role      @default(BUYER) // BUYER/SELLER/ADMIN
   emailVerified DateTime? @map("email_verified") // подтверждение email (next-auth, будущее восстановление)
@@ -28,6 +28,7 @@ model User {
 
   accounts Account[]
   sessions Session[]
+  products Product[]
 
   @@map("users")
 }
@@ -70,4 +71,42 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verification_tokens")
+}
+
+model Category {
+  id           String   @id @default(cuid())
+  slug         String   @unique // URL-идентификатор: /categories/:slug
+  name         String // отображаемое имя категории
+  imageUrl     String?  @map("image_url")
+  productCount Int      @default(0) @map("product_count") // счётчик товаров — без count-запроса на список
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  products Product[] // товары категории (обратная связь)
+
+  @@map("categories")
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  sellerId    String   @map("seller_id") // продавец — User с ролью SELLER
+  categoryId  String   @map("category_id") // категория каталога
+  name        String // название товара (контракт: shared/schemas/product.schema.ts)
+  slug        String   @unique // URL-идентификатор: /products/:slug
+  description String?
+  price       Decimal  @db.Decimal(10, 2) // текущая цена (Decimal — деньги без потери точности)
+  oldPrice    Decimal? @map("old_price") @db.Decimal(10, 2)
+  rating      Float?
+  images      String[] // фото в public/images/products; images[0] = главное
+  stock       Int      @default(0) // остаток на складе (0 = нет в наличии)
+  isActive    Boolean  @default(true) @map("is_active") // скрыть из каталога без удаления
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  seller   User     @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id])
+
+  @@index([categoryId]) // главный сценарий: фильтр по категории
+  @@index([sellerId]) // кабинет продавца: его товары
+  @@map("products")
 }

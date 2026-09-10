@@ -45,10 +45,10 @@
 
 | Пакеты | Спринт | Кто | Задача |
 |--------|--------|-----|--------|
-| `prisma`, `@prisma/client` | 1–2 | Dev 2 | init, схема, первая миграция |
-| `@sidebase/nuxt-auth`, `next-auth@~4.21.1` (peer!), `bcrypt` | 1–2 | Dev 2 | auth (#9) |
-| `@scalar/nuxt` | 1–2 | Dev 2 | API docs (#10) ✅ |
-| `pinia`, `@pinia/nuxt` | 1–2 | Dev 2 | auth store (#14); далее каталог (#21), корзина |
+| `prisma`, `@prisma/client` | 1–2 | Dev 1 | init, схема, первая миграция |
+| `@sidebase/nuxt-auth`, `next-auth@~4.21.1` (peer!), `bcrypt` | 1–2 | Dev 1 | auth (#9) |
+| `@scalar/nuxt` (выбран в #10) | 1–2 | Dev 1 | API docs (#10) |
+| `pinia`, `@pinia/nuxt` | 1–2 | Dev 1 | products store (#21), корзина (#30); auth-стор заменён на `useAuth()` (#14) |
 | `vitest`, `@nuxt/test-utils` | 5 | по задаче | тесты (#50–51) |
 
 Gotcha: `@sidebase/nuxt-auth` требует peer `next-auth` именно v4 (`~4.21.1`), не v5/Auth.js.
@@ -217,7 +217,7 @@ tolkuchka/
 
 ## API Документация (Scalar / OpenAPI)
 
-> ✅ **Решение 2026-09-08 (задача #10):** выбран `@scalar/nuxt` (нативный Nuxt-модуль, современный UI, тёмная тема). Заявленный ранее `@sidebase/nuxt-swagger` на npm не существует. `swagger-ui-dist` — архивный запасной вариант (ручная интеграция).
+> ⚠️ **Решение команды 2026-08-21:** заявленный в плане `@sidebase/nuxt-swagger` **не существует на npm**. Выбор инструмента — задача Dev 1 в спринте 1–2 (задача #10), выбран `@scalar/nuxt` (нативный Nuxt-модуль; рендерит OpenAPI-спек с эндпоинтами, параметрами, схемами и Test request). Конфигурация ниже — иллюстративная, актуальная настройка в `nuxt.config.ts` (модуль + `nitro.experimental.openAPI`).
 
 Для тестирования бэкенда используется OpenAPI-документация UI — автоматически генерируемая спецификация из TypeScript-типов server routes.
 
@@ -275,10 +275,10 @@ export default defineEventHandler(async (event) => {
 
 ### Порядок работы для команды
 
-1. **Dev 2** (бэкенд) — создаёт server routes с типизацией
-2. **Swagger UI** автоматически обновляется — Dev 1 (фронтенд) может тестировать API без ожидания фронта
+1. **Dev 1** (бэкенд) — создаёт server routes с типизацией
+2. **Scalar UI** автоматически обновляется — тот же Dev 1 тестирует API без ожидания фронта
 3. **Dev 1** — подключает фронтенд к уже задокументированным API
-4. При PR — ревьювер может открыть `/api-docs` и проверить все endpoint'ы
+4. При PR — ревьювер (Dev 2) может открыть `/api-docs` и проверить все endpoint'ы
 
 ---
 
@@ -524,26 +524,28 @@ enum OrderStatus {
 
 | # | Задача | Кто | Ключевые темы |
 |---|--------|-----|---------------|
-| 1 | Инициализация GitHub-репозитория: ветки `main`/`develop`, protected branches, ознакомиться с [GIT-WORKFLOW.md](./GIT-WORKFLOW.md) | Dev 1 | Git flow, GitHub настройки |
-| 2 | `npx nuxi@latest init`, настройка TS (strict), Tailwind, ESLint, Prettier | Dev 1 | Nuxt CLI, конфигурация |
-| 3 | Установка модулей: `@nuxt/ui`, `@pinia/nuxt`, `@sidebase/nuxt-auth` | Dev 1 | nuxt.config.ts, modules |
-| 4 | Настройка темы Nuxt UI: `app.config.ts` — цветовая палитра (primary/secondary), светлая/тёмная тема, переключатель `useColorMode` в AppHeader | Dev 1 | Nuxt UI тема, dark mode, токены |
-| 5 | Создание [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) — цвета, типографика, отступы, тени, компонентная карта Nuxt UI, состояния | Оба | Дизайн-система, конвенции |
-| 6 | `docker-compose.yml` — Postgres + pgAdmin для локальной разработки (по [CI-CD.md](./CI-CD.md)) | Dev 2 | Docker, docker-compose |
-| 7 | Инициализация Prisma: `npx prisma init`, создание schema.prisma, первая миграция | Dev 2 | Prisma, PostgreSQL, миграции |
-| 8 | Настройка `server/utils/prisma.ts` — синглтон для server/ | Dev 2 | Server utils, синглтон-паттерн |
-| 9 | Настройка `@sidebase/nuxt-auth` — Credentials провайдер + JWT стратегия | Dev 2 | Auth, JWT, cookies |
-| 10 | API-документация: выбран `@scalar/nuxt`, UI на `/api-docs` (Nitro `experimental.openAPI`, SPA-рouterules) — ✅ | Dev 2 | OpenAPI, Nitro-спека, документация |
-| 11 | Создание layouts (`default`, `dashboard`), AppHeader, AppFooter на Nuxt UI | Dev 1 | Layouts, Nuxt UI компоненты |
-| 12 | Страницы `auth/login` и `auth/register` (Nuxt UI формы) — при регистрации выбор роли «Покупатель / Продавец» | Dev 1 | SSR Forms, Nuxt UI |
-| 13 | Общие zod-схемы `shared/schemas/auth.schema.ts` (login/register; правило: схему каждой фичи пишет её владелец), подключение к `UForm :schema` и `readValidatedBody`. Пакет zod уже установлен (36a3772) | Dev 1 | zod, валидация, shared/ |
-| 14 | Pinia store `auth.ts` — useAuthStore() с привязкой к сессии | Dev 2 | Pinia, SSR-safe stores |
-| 15 | Route middleware `auth.ts`, `seller.ts`, `guest.ts` | Dev 1 | Route middleware, definePageMeta |
-| 16 | Seed данных в PostgreSQL: тестовые пользователи (buyer/seller) | Dev 2 | Prisma seed |
-| 17 | Профиль пользователя (`account/settings`) | Dev 1 | Protected routes |
-| 18 | Настройка `.github/workflows/ci.yml` — ESLint + typecheck + тесты | Dev 2 | CI/CD, GitHub Actions |
+| 1 | Инициализация GitHub-репозитория: ветки `main`/`develop`, protected branches, ознакомиться с [GIT-WORKFLOW.md](./GIT-WORKFLOW.md) | Dev 1 ✅ | Git flow, GitHub настройки |
+| 2 | `npx nuxi@latest init`, настройка TS (strict), Tailwind, ESLint, Prettier | Dev 1 ✅ | Nuxt CLI, конфигурация |
+| 3 | Установка модулей: `@nuxt/ui`, `@pinia/nuxt`, `@sidebase/nuxt-auth` | Dev 1 ✅ | nuxt.config.ts, modules |
+| 4 | Настройка темы Nuxt UI: `app.config.ts` — цветовая палитра (primary/secondary), светлая/тёмная тема, переключатель `useColorMode` в AppHeader | Dev 1 ✅ | Nuxt UI тема, dark mode, токены |
+| 5 | Создание [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) — цвета, типографика, отступы, тени, компонентная карта Nuxt UI, состояния | Оба ✅ | Дизайн-система, конвенции |
+| 6 | `docker-compose.yml` — Postgres + pgAdmin для локальной разработки (по [CI-CD.md](./CI-CD.md)) | Dev 1 ✅ | Docker, docker-compose |
+| 7 | Инициализация Prisma: `npx prisma init`, создание schema.prisma, первая миграция | Dev 1 ✅ | Prisma, PostgreSQL, миграции |
+| 8 | Настройка `server/utils/prisma.ts` — синглтон для server/ | Dev 1 ✅ | Server utils, синглтон-паттерн |
+| 9 | Настройка `@sidebase/nuxt-auth` — Credentials провайдер + JWT стратегия | Dev 1 ✅ | Auth, JWT, cookies |
+| 10 | API-документация: выбран `@scalar/nuxt` (`nitro.experimental.openAPI`), UI на `/api-docs` (SPA) | Dev 1 ✅ | OpenAPI, Nitro-спека, документация |
+| 11 | Создание layouts (`default`, `dashboard`), AppHeader, AppFooter на Nuxt UI | Dev 1 ✅ | Layouts, Nuxt UI компоненты |
+| 12 | Страницы `auth/login` и `auth/register` (Nuxt UI формы) — при регистрации выбор роли «Покупатель / Продавец» | Dev 1 ✅ | SSR Forms, Nuxt UI |
+| 13 | Общие zod-схемы `shared/schemas/auth.schema.ts` (login/register; правило: схему каждой фичи пишет её владелец), подключение к `UForm :schema` и `readValidatedBody`. Пакет zod уже установлен (36a3772) | Dev 1 ✅ | zod, валидация, shared/ |
+| 14 | Pinia store `auth.ts` — useAuthStore() с привязкой к сессии (*сделано иначе:* используется `useAuth()` из `@sidebase/nuxt-auth`, отдельный Pinia-стор не создавался) | Dev 1 ✅ | Pinia, SSR-safe stores |
+| 15 | Route middleware: защита страниц и guest-редирект — built-in `auth` от `@sidebase` (`auth: { unauthenticatedOnly }`); кастомный файл только `seller.ts` | Dev 1 ✅ | Route middleware, definePageMeta |
+| 16 | Seed данных в PostgreSQL: тестовые пользователи (buyer/seller); с #19 расширен до каталога (категории + 54 товара) | Dev 1 ✅ | Prisma seed |
+| 17 | Профиль пользователя (`account/settings`) | Dev 1 ✅ | Protected routes |
+| 18 | Настройка `.github/workflows/ci.yml` — ESLint + typecheck + тесты | Dev 1 ✅ | CI/CD, GitHub Actions |
 
 **Exit criteria:** Регистрация → Login → Доступ к профилю → Logout. Защищённые страницы перенаправляют на login. CI запускается на PR. Scalar UI доступен по `/api-docs`, OpenAPI-спека — на `/_openapi.json`. Postgres работает в Docker у обоих, первая миграция применена. Тема Nuxt UI настроена (палитра, светлая/тёмная), переключатель темы работает. [DESIGN-SYSTEM.md](./DESIGN-SYSTEM.md) создан и согласован. Формы auth валидируются через zod (`UForm :schema` + `readValidatedBody`), схемы в `shared/schemas/auth.schema.ts`.
+
+**Спринт 1 закрыт ✅ (2026-09).**
 
 ---
 
@@ -553,8 +555,8 @@ enum OrderStatus {
 
 | # | Задача | Кто | Ключевые темы |
 |---|--------|-----|---------------|
-| 19 | Prisma schema: модель `Category` + `Product.categoryId` (связь), миграция, seed: категории + 50+ товаров | Dev 2 | Prisma, seed script |
-| 20 | `server/api/products/index.get.ts` — пагинация, фильтры (категория через `categoryId`, цена, поиск) + `server/api/categories/index.get.ts` и `[slug].get.ts` | Dev 2 | Server API, query params, Prisma |
+| 19 | Prisma schema: модель `Category` + `Product.categoryId` (связь, индексы, `@@map`), миграция `add_catalog`, seed: категории + 54 товара (идемпотентный `upsert`) | Dev 1 ✅ | Prisma, seed script |
+| 20 | `server/api/products/index.get.ts` — пагинация, фильтры (категория через `categoryId`, цена, поиск) + `server/api/categories/index.get.ts` и `[slug].get.ts` | Dev 1 | Server API, query params, Prisma |
 | 21 | Pinia store `products.ts` — каталог, фильтры, кэш — ✅ PR #6 (на ревью) | Dev 1 | Pinia getters, caching |
 | 22 | `pages/products/index.vue` — каталог, фильтры, сортировка (ISR) + `pages/categories/[slug].vue` — страница категории (ISR) — ✅ PR #6 (на ревью) | Dev 1 | `useAsyncData`, ISR, routeRules |
 | 23 | `pages/products/[slug].vue` — карточка товара (SSR) — ✅ | Dev 2 | Dynamic routes, definePageMeta |
@@ -575,16 +577,16 @@ enum OrderStatus {
 | # | Задача | Кто | Ключевые темы |
 |---|--------|-----|---------------|
 | 29 | `server/api/cart/*` — CRUD корзины (Prisma транзакции) | Dev 1 | Server API, Prisma |
-| 30 | Pinia store `cart.ts` + `composables/useCart.ts` — клиентская корзина | Dev 2 | Pinia actions, SSR-safe |
+| 30 | Pinia store `cart.ts` + `composables/useCart.ts` — клиентская корзина | Dev 1 | Pinia actions, SSR-safe |
 | 31 | Страница `cart.vue` — отображение, изменение количества (Nuxt UI таблица) | Dev 1 | Forms, Nuxt UI |
-| 32 | `pages/checkout/` — `index.vue` (оформление, адрес, подтверждение) + `success.vue` (подтверждение заказа) | Dev 2 | Form validation, middleware |
+| 32 | `pages/checkout/` — `index.vue` (оформление, адрес, подтверждение) + `success.vue` (подтверждение заказа) | Dev 1 | Form validation, middleware |
 | 33 | `server/api/orders/index.post.ts` — создание заказа (Prisma транзакция) | Dev 1 | Server transactions, error handling |
-| 34 | Pinia store `seller.ts` — статистика продавца | Dev 2 | Pinia getters, вычисления |
-| 35 | `seller/dashboard.vue` — статистика (выручка, заказы) | Dev 2 | `useAsyncData`, серверные данные |
+| 34 | Pinia store `seller.ts` — статистика продавца | Dev 1 | Pinia getters, вычисления |
+| 35 | `seller/dashboard.vue` — статистика (выручка, заказы) | Dev 1 | `useAsyncData`, серверные данные |
 | 36 | `seller/products/new.vue` — создание товара | Dev 1 | Forms, file upload |
-| 37 | `seller/products/index.vue` — список товаров + `seller/products/[id]/edit.vue` — редактирование | Dev 2 | CRUD UI, Nuxt UI DataTable |
+| 37 | `seller/products/index.vue` — список товаров + `seller/products/[id]/edit.vue` — редактирование | Dev 1 | CRUD UI, Nuxt UI DataTable |
 | 38 | `seller/orders/` — `index.vue` (заказы продавца) + `[id].vue` (детали, смена статуса) | Dev 1 | Status management |
-| 39 | `account/orders/` — `index.vue` (история покупок) + `[id].vue` (детали заказа) | Dev 2 | Order history |
+| 39 | `account/orders/` — `index.vue` (история покупок) + `[id].vue` (детали заказа) | Dev 1 | Order history |
 
 **Exit criteria:** Каталог → Добавление в корзину → Оформление → Заказ создан. Продавец видит товар и заказ в кабинете.
 
@@ -597,13 +599,13 @@ enum OrderStatus {
 | # | Задача | Кто | Ключевые темы |
 |---|--------|-----|---------------|
 | 40 | Аудит Lighthouse, фикс LCP — ленивая загрузка изображений | Dev 1 | `<NuxtImg>`, lazy loading, WebP |
-| 41 | `routeRules` в `nuxt.config.ts` — ISR для каталога, prerender для лендинга | Dev 2 | routeRules |
+| 41 | `routeRules` в `nuxt.config.ts` — ISR для каталога, prerender для лендинга | Dev 1 | routeRules |
 | 42 | Кэширование API: `defineCachedEventHandler` для товаров | Dev 1 | Server-side caching |
-| 43 | Code Splitting: `<Lazy*>` для тяжёлых компонентов | Dev 2 | Dynamic imports, Lazy* |
+| 43 | Code Splitting: `<Lazy*>` для тяжёлых компонентов | Dev 1 | Dynamic imports, Lazy* |
 | 44 | Скелетоны при загрузке (Nuxt UI USkeleton) | Dev 1 | UX, useLoadingIndicator |
-| 45 | `nuxi analyze` — анализ bundle size, оптимизация | Dev 2 | Bundle analysis |
+| 45 | `nuxi analyze` — анализ bundle size, оптимизация | Dev 1 | Bundle analysis |
 | 46 | Web Vitals метрики, Sentry интеграция (опционально) | Dev 1 | Monitoring, error tracking |
-| 47 | Предзагрузка данных: `prefetch` / `preloadRouteComponents` | Dev 2 | Navigation UX |
+| 47 | Предзагрузка данных: `prefetch` / `preloadRouteComponents` | Dev 1 | Navigation UX |
 
 **Exit criteria:** Lighthouse Performance > 90, FCP < 1.5s, LCP < 2.5s. Скелетоны на всех загружаемых страницах.
 
@@ -616,13 +618,13 @@ enum OrderStatus {
 | # | Задача | Кто | Ключевые темы |
 |---|--------|-----|---------------|
 | 48 | Настройка Vercel: проект, `develop` → staging, `main` → production (по [CI-CD.md](./CI-CD.md)) | Dev 1 | Vercel, env-переменные |
-| 49 | `Dockerfile` для Nuxt (multi-stage build) — изучение сборки образа | Dev 2 | Docker, multi-stage |
+| 49 | `Dockerfile` для Nuxt (multi-stage build) — изучение сборки образа | Dev 1 | Docker, multi-stage |
 | 50 | E2E тесты: `@nuxt/test-utils` + Vitest | Dev 1 | Testing in Nuxt |
-| 51 | Unit-тесты для server API | Dev 2 | Server testing, Vitest |
+| 51 | Unit-тесты для server API | Dev 1 | Server testing, Vitest |
 | 52 | Error pages: `app/error.vue` + `app/pages/[...slug].vue` (404 catch-all) | Dev 1 | Error handling, createError |
-| 53 | Мультиязычность: `@nuxtjs/i18n` — RU/EN | Dev 2 | i18n, locale routing |
+| 53 | Мультиязычность: `@nuxtjs/i18n` — RU/EN | Dev 1 | i18n, locale routing |
 | 54 | Поиск с debounce + подсветка результатов | Dev 1 | Client-side UX, useDebounceFn |
-| 55 | README.md, документация API, .env.example | Dev 2 | Documentation |
+| 55 | README.md, документация API, .env.example | Dev 1 | Documentation |
 | 56 | Финальный polish: анимации переходов, loading states | Dev 1 | Transitions, UX |
 | 57 | Релиз `develop → main` по сценарию [CI-CD.md](./CI-CD.md), smoke test | Оба | Release process |
 
@@ -633,7 +635,7 @@ enum OrderStatus {
 | # | Задача | Спринт | Кто | Ключевые темы |
 |---|--------|--------|-----|---------------|
 | 58 | Лендинг `/seller` «Продавайте на Толкучке» + флоу «Стать продавцом» (`server/api/sellers/become.post.ts`, смена роли BUYER → SELLER; CTA из шапки/футера) | 3 | Dev 1 | Роли, server action, лендинг |
-| 59 | Публичный профиль продавца `/sellers/[slug]` + `server/api/sellers/[slug].get.ts` (товары продавца, ссылка из карточки товара) | 3 | Dev 2 | ISR, SEO, динамические роуты |
+| 59 | Публичный профиль продавца `/sellers/[slug]` + `server/api/sellers/[slug].get.ts` (товары продавца, ссылка из карточки товара) | 3 | Dev 1 | ISR, SEO, динамические роуты |
 
 ---
 
@@ -653,6 +655,8 @@ enum OrderStatus {
 | Вход по телефону и паролю | идентификатор входа `phone` (или выбор phone/email) в mock-users/schema/`authorize` | ломает «email = уникальный логин» — меняется контракт, а не просто новый провайдер. Отдельная мини-фича со своим проектированием |
 | SMS-OTP (учебная тема) | мок-эмуляция кода (вывод в консоль/ответ в dev), флоу «запросить код → ввести код» | реальный провайдер платный (Twilio и т.п.), для учебного проекта мок достаточен, чтобы понять OTP-флоу |
 | Привязка аккаунтов (OAuth ↔ email) | связывание нескольких identity с одним аккаунтом | сложность выше среднего; есть смысл только когда появятся и социальные, и парольные входы вместе |
+| Перенос sitemap на данные БД/API | сейчас `nuxt.config.ts` импортирует `shared/mocks/products` для `sitemap.urls` (PR #18); после #20 каталог переедет в БД | делать сразу после #20 — моки и API разъедутся, sitemap перестанет совпадать с сайтом |
+| OG-превью и канонические ссылки | `site.url: 'https://tolkuchka.ru'` захардкожен (PR #18); `og:image` на карточке товара и странице категории — относительные, соцсети (VK/TG/FB) без абсолютного URL не соберут превью | при деплое на Vercel: `site.url` брать из env (`NUXT_SITE_URL`/runtimeConfig), `og:image` собирать абсолютным (для категорий — первое фото товара категории); мелочи: `ogType` → `'product'` на карточке |
 
 ---
 
@@ -764,9 +768,11 @@ main (protected, автодеплой на PRODUCTION)
 
 | Период | Dev 1 | Dev 2 |
 |--------|-------|-------|
-| Спринт 1–2 | Фронтенд (компоненты Nuxt UI, дизайн-система, layouts, страницы, Pinia) | Бэкенд (Prisma, миграции, Auth, Server API) |
-| Спринт 3–4 | Бэкенд (API корзины/заказов, Prisma транзакции, оптимизация) | Фронтенд (корзина Pinia, кабинет продавца, UI) |
-| Спринт 5 | CI/CD, тесты | Деплой, polish, документация |
+| Спринт 1–2 | Вся реализация: фронтенд (UI, layouts, страницы, Pinia, дизайн-система, SEO) + бэкенд (Prisma, миграции, Auth, Server API, seed, CI) | Code review всех PR (min 1 approval), работа с `/api-docs`, smoke-тесты флоу |
+| Спринт 3–4 | Вся реализация: бэкенд (API корзины/заказов, Prisma транзакции, оптимизация) + фронтенд (корзина Pinia, кабинет продавца) | Code review PR, тестирование флоу покупки и кабинета |
+| Спринт 5 | CI/CD, тесты, деплой, polish, документация | Code review финальных PR, итоговое демо-тестирование |
+
+> **Решение 2026-09:** задачи бэкенда (ранее — Dev 2) переданы Dev 1 — команда работает как «1 исполнитель + ревьюер»; Dev 2 утверждает изменения через ревью PR.
 
 ---
 
