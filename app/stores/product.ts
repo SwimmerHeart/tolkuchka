@@ -25,6 +25,7 @@ export const useProductStore = defineStore('product', {
     sort: 'relevance' as SortKey,
     page: 1,
     perPage: 12,
+    categoriesLoaded: false,
   }),
 
   getters: {
@@ -43,7 +44,9 @@ export const useProductStore = defineStore('product', {
 
   actions: {
     async fetchCategories() {
+      if (this.categoriesLoaded) return;
       this.categories = await $fetch<Category[]>('/api/categories');
+      this.categoriesLoaded = true;
     },
     async fetchProducts(): Promise<Product[]> {
       const { q, categoryId, priceMin, priceMax } = this.filters;
