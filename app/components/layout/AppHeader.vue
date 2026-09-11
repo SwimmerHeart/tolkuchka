@@ -90,7 +90,8 @@
 
 <script setup lang="ts">
   const store = useProductStore();
-  const { count: cartCount, load: loadCart } = useCart();
+  const cart = useCartStore();
+  const { count: cartCount } = storeToRefs(cart);
   const { data: session, status, signOut } = useAuth();
   const user = computed(() => session.value?.user);
 
@@ -113,5 +114,5 @@
 
   if (!store.loaded) await store.fetch();
 
-  onMounted(() => loadCart());
+  onMounted(() => cart.load());
 </script>

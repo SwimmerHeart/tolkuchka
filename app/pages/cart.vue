@@ -48,14 +48,15 @@
 <script setup lang="ts">
   import type { CartLine } from '#shared/schemas/cart.schema';
 
-  const { items, isLoading, load, addToCart, updateQty, remove } = useCart();
+  const cart = useCartStore();
+  const { items, isLoading } = storeToRefs(cart);
   const productStore = useProductStore();
 
   await useAsyncData('cart-products', () => productStore.fetch(), {
     default: () => [],
   });
 
-  onMounted(() => load());
+  onMounted(() => cart.load());
 
   const lines = computed<CartLine[]>(() =>
     items.value.flatMap((item) => {
@@ -80,18 +81,18 @@
     const line = lines.value.find((item) => item.id === id);
     const max = line?.product.stock ?? qty;
     const next = Math.min(Math.max(1, qty), max);
-    await updateQty(id, next);
+    await cart.updateQty(id, next);
   }
 
   async function onRemove(line: CartLine) {
-    await remove(line.id);
+    await cart.remove(line.id);
     toast.add({
       title: 'Товар удалён',
       color: 'warning',
       actions: [
         {
           label: 'Вернуть',
-          onClick: () => addToCart(line.id, line.qty),
+          onClick: () => cart.addToCart(line.id, line.qty),
         },
       ],
     });

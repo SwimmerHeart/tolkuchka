@@ -114,7 +114,7 @@
 
   const quantity = ref(1);
   const toast = useToast();
-  const cart = useCart();
+  const cart = useCartStore();
 
   async function addToCart() {
     const stock = product.value!.stock ?? 0;

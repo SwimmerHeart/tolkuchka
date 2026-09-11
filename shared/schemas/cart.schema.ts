@@ -3,7 +3,7 @@ import type { Product } from './product.schema';
 
 /**
  * Контракт корзины.
- * Клиентский слой (useCart) оперирует товаром напрямую: id — это productId.
+ * Клиентский слой (useCartStore) оперирует товаром напрямую: id — это productId.
  * После появления server/api/cart/* (#29) эти же типы вернёт бэкенд.
  */
 
