@@ -74,6 +74,12 @@ export default defineNuxtConfig({
     experimental: {
       openAPI: true,
     },
+    // Layero (и статико-ориентированные хосты) требует index.html в каталоге output.
+    // Пререндерим главную — динамические страницы остаются за SSR-сервером.
+    prerender: {
+      routes: ['/'],
+      crawlLinks: false,
+    },
   },  
   routeRules: {
     '/api-docs': { ssr: false },
