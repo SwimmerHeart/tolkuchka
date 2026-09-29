@@ -1,13 +1,10 @@
 import { prisma } from '#server/utils/prisma';
 import type { Prisma } from '#server/generated/prisma/client';
 import { catalogQuerySchema, type CatalogQuery } from '#shared/schemas/catalog.schema';
-import { isPrerender, mockProductsPayload } from '#server/utils/mockCatalog';
 
 export default defineEventHandler(async (event) => {
   const { q, categoryId, priceMin, priceMax, sort, discount, page, perPage } =
     await getValidatedQuery(event, (data) => catalogQuerySchema.parse(data));
-
-  if (isPrerender) return mockProductsPayload({ q, sort, page, perPage });
 
   const where: Prisma.ProductWhereInput = {
     isActive: true,
