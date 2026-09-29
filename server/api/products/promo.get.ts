@@ -1,10 +1,13 @@
 import { prisma } from '#server/utils/prisma';
 import { Prisma } from '#server/generated/prisma/client';
+import { isPrerender, mockPromoPayload } from '#server/utils/mockCatalog';
 
 const DEALS_LIMIT = 14; // 3 карусель + 8 блок + буфер на дедуп
 const DAY_MS = 86_400_000;
 
 export default defineEventHandler(async () => {
+  if (isPrerender) return mockPromoPayload();
+
   const rangeSql = Prisma.sql`((p.old_price - p.price) * 1.0 / p.old_price BETWEEN 0.10 AND 0.80)`;
 
   const count = await prisma.$queryRaw<Array<{ count: bigint }>>(Prisma.sql`
