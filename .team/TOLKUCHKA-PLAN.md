@@ -581,12 +581,12 @@ enum OrderStatus {
 | 31 | Страница `cart.vue` — отображение, изменение количества (+ гостевая: ревалидация, гейт «Войти и оформить») | Dev 1 ✅ | Forms, Nuxt UI |
 | 32 | `pages/checkout/` — `index.vue` (оформление, адрес, подтверждение) + `success.vue` (подтверждение заказа) | Dev 1 ✅, Dev 2 | Form validation, middleware |
 | 33 | `server/api/orders/index.post.ts` — создание заказа (Prisma транзакция) | Dev 1 ✅ | Server transactions, error handling |
-| 34 | Pinia store `seller.ts` — статистика продавца | Dev 1 | Pinia getters, вычисления |
-| 35 | `seller/dashboard.vue` — статистика (выручка, заказы) | Dev 1 | `useAsyncData`, серверные данные |
-| 36 | `seller/products/new.vue` — создание товара | Dev 1 | Forms, file upload |
-| 37 | `seller/products/index.vue` — список товаров + `seller/products/[id]/edit.vue` — редактирование | Dev 1 | CRUD UI, Nuxt UI DataTable |
+| 34 | Pinia store `seller.ts` — статистика продавца | Dev 1 ✅ | Pinia getters, вычисления |
+| 35 | `seller/dashboard.vue` — статистика (выручка, заказы) | Dev 1 ✅ | `useAsyncData`, серверные данные |
+| 36 | `seller/products/new.vue` — создание товара | Dev 1 ✅ | Forms, file upload |
+| 37 | `seller/products/index.vue` — список товаров + `seller/products/[id]/edit.vue` — редактирование | Dev 1 ✅ | CRUD UI, Nuxt UI DataTable |
 | 38 | `seller/orders/` — `index.vue` (заказы продавца) + `[id].vue` (детали, смена статуса) | Dev 1 ✅ | Status management |
-| 39 | `account/orders/` — `index.vue` (история покупок) + `[id].vue` (детали заказа) | Dev 1 | Order history |
+| 39 | `account/orders/` — `index.vue` (история покупок) + `[id].vue` (детали заказа) | Dev 1 ✅ | Order history |
 
 **Exit criteria:** Каталог → Добавление в корзину → Оформление → Заказ создан. Продавец видит товар и заказ в кабинете.
 
@@ -617,7 +617,7 @@ enum OrderStatus {
 
 | # | Задача | Кто | Ключевые темы |
 |---|--------|-----|---------------|
-| 48 | Настройка Vercel: проект, `develop` → staging, `main` → production (по [CI-CD.md](./CI-CD.md)) | Dev 1 | Vercel, env-переменные |
+| 48 | Настройка Vercel: проект, `develop` → staging, `main` → production (по [CI-CD.md](./CI-CD.md)) | Dev 1 ✅ | Vercel, env-переменные |
 | 49 | `Dockerfile` для Nuxt (multi-stage build) — изучение сборки образа | Dev 1 | Docker, multi-stage |
 | 50 | E2E тесты: `@nuxt/test-utils` + Vitest | Dev 1 | Testing in Nuxt |
 | 51 | Unit-тесты для server API | Dev 1 | Server testing, Vitest |
